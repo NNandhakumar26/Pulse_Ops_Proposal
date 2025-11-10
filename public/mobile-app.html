@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Ops - Mobile App Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .preview-header img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+
+        .preview-header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .preview-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .devices-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1400px;
+        }
+
+        /* Phone Frame */
+        .phone-frame {
+            width: 340px;
+            height: 700px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Mobile App Styles */
+        .mobile-app {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+        }
+
+        .mobile-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 50px 20px 30px 20px;
+        }
+
+        .mobile-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .mobile-header h2 {
+            font-size: 24px;
+        }
+
+        .mobile-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            background: #FF5252;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .mobile-content {
+            flex: 1;
+            overflow-y: auto;
+            background: #F5F7FA;
+            padding: 20px;
+        }
+
+        .mobile-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .mobile-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 15px;
+        }
+
+        .clock-display {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .clock-time {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .clock-status {
+            font-size: 12px;
+            color: #78909C;
+            margin-bottom: 20px;
+        }
+
+        .mobile-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: #F5F7FA;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #78909C;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2C3E50;
+        }
+
+        .schedule-item-mobile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #F5F7FA;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .schedule-date-mobile {
+            min-width: 45px;
+            text-align: center;
+        }
+
+        .schedule-day-mobile {
+            font-size: 10px;
+            color: #78909C;
+            text-transform: uppercase;
+        }
+
+        .schedule-num-mobile {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .schedule-details-mobile {
+            flex: 1;
+        }
+
+        .schedule-time-mobile {
+            font-weight: 600;
+            font-size: 12px;
+            color: #2C3E50;
+            margin-bottom: 3px;
+        }
+
+        .schedule-location-mobile {
+            font-size: 11px;
+            color: #78909C;
+        }
+
+        .quick-actions-mobile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .quick-action-mobile {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .quick-action-icon-mobile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .quick-action-label-mobile {
+            font-size: 11px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .mobile-bottom-nav {
+            display: flex;
+            background: white;
+            border-top: 1px solid #E0E0E0;
+            padding: 10px 0;
+        }
+
+        .nav-item-mobile {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            color: #90A4AE;
+            font-size: 11px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-item-mobile.active {
+            color: #667eea;
+        }
+
+        .nav-item-mobile i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .badge-mobile {
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #E8F5E9;
+            color: #43A047;
+        }
+
+        .badge-warning {
+            background: #FFF3E0;
+            color: #FB8C00;
+        }
+
+        .screen-label {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Tablet styles (optional second device) */
+        .tablet-frame {
+            width: 500px;
+            height: 700px;
+            background: #1a1a1a;
+            border-radius: 30px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .tablet-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .devices-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .phone-frame {
+                width: 100%;
+                max-width: 340px;
+            }
+
+            .tablet-frame {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-header">
+        <img src="assets/pulse-ops-logo.png" alt="Pulse Ops Logo">
+        <h1>PULSE OPS Mobile App</h1>
+        <p>Flutter-based iOS & Android Application</p>
+    </div>
+
+    <div class="devices-container">
+        <!-- Phone 1 - Dashboard -->
+        <div>
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="mobile-app">
+                        <div class="mobile-header">
+                            <div class="mobile-header-top">
+                                <div>
+                                    <h2>Good Morning!</h2>
+                                    <p>John Doe</p>
+                                </div>
+                                <div style="position: relative;">
+                                    <i class="fas fa-bell" style="font-size: 22px;"></i>
+                                    <div class="notification-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mobile-content">
+                            <!-- Clock In Card -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Today's Attendance</div>
+                                <div class="clock-display">
+                                    <div class="clock-time">09:02:45</div>
+                                    <div class="clock-status">Currently Clocked In</div>
+                                    <button class="mobile-btn">
+                                        <i class="fas fa-sign-out-alt"></i> Clock Out
+                                    </button>
+                                </div>
+                                <div class="stats-row">
+                                    <div class="stat-box">
+                                        <div class="stat-label">Clock In</div>
+                                        <div class="stat-value">09:02 AM</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-label">Worked</div>
+                                        <div class="stat-value">7h 30m</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Quick Actions</div>
+                                <div class="quick-actions-mobile">
+                                    <div class="quick-action-mobile">
+                                        <div class="quick-action-icon-mobile">
+                                            <i class="fas fa-umbrella-beach"></i>
+                                        </div>
+                                        <div class="quick-action-label-mobile">Request Leave</div>
+                                    </div>
+                                    <div class="quick-action-mobile">
+                                        <div class="quick-action-icon-mobile">
+                                            <i class="fas fa-receipt"></i>
+                                        </div>
+                                        <div class="quick-action-label-mobile">Expenses</div>
+                                    </div>
+                                    <div class="quick-action-mobile">
+                                        <div class="quick-action-icon-mobile">
+                                            <i class="fas fa-calendar"></i>
+                                        </div>
+                                        <div class="quick-action-label-mobile">My Schedule</div>
+                                    </div>
+                                    <div class="quick-action-mobile">
+                                        <div class="quick-action-icon-mobile">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="quick-action-label-mobile">Reports</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upcoming Schedule -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Upcoming Shifts</div>
+                                <div class="schedule-item-mobile">
+                                    <div class="schedule-date-mobile">
+                                        <div class="schedule-day-mobile">MON</div>
+                                        <div class="schedule-num-mobile">11</div>
+                                    </div>
+                                    <div class="schedule-details-mobile">
+                                        <div class="schedule-time-mobile">09:00 AM - 05:00 PM</div>
+                                        <div class="schedule-location-mobile">
+                                            <i class="fas fa-map-marker-alt"></i> TechCorp Office
+                                        </div>
+                                    </div>
+                                    <span class="badge-mobile badge-success">Confirmed</span>
+                                </div>
+                                <div class="schedule-item-mobile">
+                                    <div class="schedule-date-mobile">
+                                        <div class="schedule-day-mobile">WED</div>
+                                        <div class="schedule-num-mobile">13</div>
+                                    </div>
+                                    <div class="schedule-details-mobile">
+                                        <div class="schedule-time-mobile">10:00 AM - 06:00 PM</div>
+                                        <div class="schedule-location-mobile">
+                                            <i class="fas fa-home"></i> Remote Work
+                                        </div>
+                                    </div>
+                                    <span class="badge-mobile badge-warning">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mobile-bottom-nav">
+                            <div class="nav-item-mobile active">
+                                <i class="fas fa-home"></i>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-calendar"></i>
+                                <div>Schedule</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-clock"></i>
+                                <div>Attendance</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-user"></i>
+                                <div>Profile</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="screen-label">Home Screen</div>
+        </div>
+
+        <!-- Phone 2 - Schedule View -->
+        <div>
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="mobile-app">
+                        <div class="mobile-header">
+                            <div class="mobile-header-top">
+                                <div>
+                                    <h2>My Schedule</h2>
+                                    <p>This Week</p>
+                                </div>
+                                <div>
+                                    <i class="fas fa-filter" style="font-size: 20px;"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mobile-content">
+                            <!-- Calendar Week View -->
+                            <div class="mobile-card">
+                                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 20px;">
+                                    <div style="text-align: center; padding: 10px; background: #667eea; color: white; border-radius: 8px; font-weight: 600;">
+                                        <div style="font-size: 10px; margin-bottom: 5px;">MON</div>
+                                        <div style="font-size: 16px;">11</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #F5F7FA; border-radius: 8px;">
+                                        <div style="font-size: 10px; margin-bottom: 5px; color: #78909C;">TUE</div>
+                                        <div style="font-size: 16px; color: #2C3E50;">12</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #F5F7FA; border-radius: 8px;">
+                                        <div style="font-size: 10px; margin-bottom: 5px; color: #78909C;">WED</div>
+                                        <div style="font-size: 16px; color: #2C3E50;">13</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #F5F7FA; border-radius: 8px;">
+                                        <div style="font-size: 10px; margin-bottom: 5px; color: #78909C;">THU</div>
+                                        <div style="font-size: 16px; color: #2C3E50;">14</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #F5F7FA; border-radius: 8px;">
+                                        <div style="font-size: 10px; margin-bottom: 5px; color: #78909C;">FRI</div>
+                                        <div style="font-size: 16px; color: #2C3E50;">15</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #F5F7FA; border-radius: 8px; opacity: 0.5;">
+                                        <div style="font-size: 10px; margin-bottom: 5px; color: #78909C;">SAT</div>
+                                        <div style="font-size: 16px; color: #2C3E50;">16</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #F5F7FA; border-radius: 8px; opacity: 0.5;">
+                                        <div style="font-size: 10px; margin-bottom: 5px; color: #78909C;">SUN</div>
+                                        <div style="font-size: 16px; color: #2C3E50;">17</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Shift Details -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Monday, Nov 11</div>
+                                <div style="display: flex; align-items: start; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #F0F0F0;">
+                                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(102, 126, 234, 0.1); display: flex; align-items: center; justify-content: center; color: #667eea; font-size: 20px;">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; color: #2C3E50; margin-bottom: 5px;">Client Site Work</div>
+                                        <div style="font-size: 12px; color: #78909C; margin-bottom: 3px;">
+                                            <i class="far fa-clock"></i> 09:00 AM - 05:00 PM
+                                        </div>
+                                        <div style="font-size: 12px; color: #78909C;">
+                                            <i class="fas fa-map-marker-alt"></i> TechCorp Office, Building A
+                                        </div>
+                                    </div>
+                                    <span class="badge-mobile badge-success">Confirmed</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <button style="padding: 12px; border: 2px solid #667eea; background: white; color: #667eea; border-radius: 10px; font-weight: 600; cursor: pointer;">
+                                        View Details
+                                    </button>
+                                    <button style="padding: 12px; border: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 10px; font-weight: 600; cursor: pointer;">
+                                        Get Directions
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Stats Summary -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">This Week Summary</div>
+                                <div class="stats-row" style="grid-template-columns: repeat(3, 1fr);">
+                                    <div class="stat-box">
+                                        <div class="stat-label">Shifts</div>
+                                        <div class="stat-value">5</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-label">Hours</div>
+                                        <div class="stat-value">40</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-label">Clients</div>
+                                        <div class="stat-value">3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mobile-bottom-nav">
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-home"></i>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-item-mobile active">
+                                <i class="fas fa-calendar"></i>
+                                <div>Schedule</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-clock"></i>
+                                <div>Attendance</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-user"></i>
+                                <div>Profile</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="screen-label">Schedule Screen</div>
+        </div>
+
+        <!-- Phone 3 - Leave Request -->
+        <div>
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="mobile-app">
+                        <div class="mobile-header">
+                            <div class="mobile-header-top">
+                                <div>
+                                    <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
+                                </div>
+                                <div>
+                                    <h2 style="font-size: 18px;">Leave Request</h2>
+                                </div>
+                                <div style="width: 20px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="mobile-content">
+                            <!-- Leave Balance Overview -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Available Leave Balance</div>
+                                <div class="stats-row" style="grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                                    <div class="stat-box">
+                                        <div class="stat-label">Casual</div>
+                                        <div class="stat-value" style="color: #667eea;">12</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-label">Sick</div>
+                                        <div class="stat-value" style="color: #43A047;">10</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-label">PTO</div>
+                                        <div class="stat-value" style="color: #FB8C00;">6</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Leave Form -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Request New Leave</div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <label style="font-size: 12px; color: #78909C; display: block; margin-bottom: 5px;">Leave Type</label>
+                                    <select style="width: 100%; padding: 12px; border: 1px solid #E0E0E0; border-radius: 8px; font-size: 14px; background: white;">
+                                        <option>Casual Leave</option>
+                                        <option>Sick Leave</option>
+                                        <option>Paid Time Off</option>
+                                    </select>
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <label style="font-size: 12px; color: #78909C; display: block; margin-bottom: 5px;">From Date</label>
+                                    <input type="date" style="width: 100%; padding: 12px; border: 1px solid #E0E0E0; border-radius: 8px; font-size: 14px;">
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <label style="font-size: 12px; color: #78909C; display: block; margin-bottom: 5px;">To Date</label>
+                                    <input type="date" style="width: 100%; padding: 12px; border: 1px solid #E0E0E0; border-radius: 8px; font-size: 14px;">
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <label style="font-size: 12px; color: #78909C; display: block; margin-bottom: 5px;">Reason</label>
+                                    <textarea style="width: 100%; padding: 12px; border: 1px solid #E0E0E0; border-radius: 8px; font-size: 14px; min-height: 80px; font-family: inherit;" placeholder="Enter reason for leave..."></textarea>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <label style="font-size: 12px; color: #78909C; display: block; margin-bottom: 5px;">Attach Document (Optional)</label>
+                                    <div style="border: 2px dashed #E0E0E0; border-radius: 8px; padding: 20px; text-align: center; color: #78909C; cursor: pointer;">
+                                        <i class="fas fa-cloud-upload-alt" style="font-size: 32px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                                        <div style="font-size: 12px;">Tap to upload medical certificate</div>
+                                    </div>
+                                </div>
+
+                                <button class="mobile-btn">
+                                    <i class="fas fa-paper-plane"></i> Submit Request
+                                </button>
+                            </div>
+
+                            <!-- Recent Requests -->
+                            <div class="mobile-card">
+                                <div class="mobile-card-title">Recent Requests</div>
+                                <div style="padding: 12px; background: #F5F7FA; border-radius: 8px; margin-bottom: 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 13px; color: #2C3E50; margin-bottom: 3px;">Casual Leave</div>
+                                            <div style="font-size: 11px; color: #78909C;">Nov 20 - Nov 22, 2024</div>
+                                        </div>
+                                        <span class="badge-mobile badge-success">Approved</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: #78909C;">3 days • Personal work</div>
+                                </div>
+                                <div style="padding: 12px; background: #F5F7FA; border-radius: 8px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 13px; color: #2C3E50; margin-bottom: 3px;">Sick Leave</div>
+                                            <div style="font-size: 11px; color: #78909C;">Nov 5, 2024</div>
+                                        </div>
+                                        <span class="badge-mobile badge-warning">Pending</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: #78909C;">1 day • Medical checkup</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mobile-bottom-nav">
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-home"></i>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-calendar"></i>
+                                <div>Schedule</div>
+                            </div>
+                            <div class="nav-item-mobile">
+                                <i class="fas fa-clock"></i>
+                                <div>Attendance</div>
+                            </div>
+                            <div class="nav-item-mobile active">
+                                <i class="fas fa-user"></i>
+                                <div>Profile</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="screen-label">Leave Request Screen</div>
+        </div>
+    </div>
+
+    <script>
+        // Update time in clock
+        function updateMobileClock() {
+            const clocks = document.querySelectorAll('.clock-time');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            clocks.forEach(clock => clock.textContent = timeString);
+        }
+
+        setInterval(updateMobileClock, 1000);
+        updateMobileClock();
+    </script>
+</body>
+</html>

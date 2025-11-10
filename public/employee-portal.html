@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Ops - Employee Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2C3E50;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-section img {
+            width: 45px;
+            height: 45px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo-section h1 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .logo-section p {
+            font-size: 12px;
+            color: #78909C;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #546E7A;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            color: #667eea;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            color: #546E7A;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #FF5252;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 25px;
+            transition: background 0.3s;
+        }
+
+        .user-profile:hover {
+            background: #F5F7FA;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .welcome-banner h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .banner-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .banner-stat {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .banner-stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* Quick Actions */
+        .quick-actions-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .quick-action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .quick-action-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: #667eea;
+        }
+
+        .quick-action-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2C3E50;
+        }
+
+        .quick-action-card p {
+            font-size: 13px;
+            color: #78909C;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .card-action {
+            color: #667eea;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .card-action:hover {
+            text-decoration: underline;
+        }
+
+        /* Schedule List */
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            background: #F5F7FA;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .schedule-date {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .schedule-day {
+            font-size: 12px;
+            color: #78909C;
+            text-transform: uppercase;
+        }
+
+        .schedule-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .schedule-details {
+            flex: 1;
+        }
+
+        .schedule-time {
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 5px;
+        }
+
+        .schedule-location {
+            font-size: 13px;
+            color: #78909C;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .schedule-status {
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .schedule-status.confirmed {
+            background: #E8F5E9;
+            color: #43A047;
+        }
+
+        .schedule-status.pending {
+            background: #FFF3E0;
+            color: #FB8C00;
+        }
+
+        /* Leave Balance */
+        .leave-types {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .leave-type {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #F5F7FA;
+            border-radius: 12px;
+        }
+
+        .leave-info h4 {
+            font-size: 14px;
+            color: #2C3E50;
+            margin-bottom: 5px;
+        }
+
+        .leave-bar {
+            height: 6px;
+            background: #E0E0E0;
+            border-radius: 3px;
+            overflow: hidden;
+            width: 150px;
+        }
+
+        .leave-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 3px;
+        }
+
+        .leave-count {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        /* Announcements */
+        .announcement-item {
+            padding: 15px;
+            background: #F5F7FA;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #FF9800;
+        }
+
+        .announcement-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .announcement-badge {
+            padding: 4px 10px;
+            background: #FF9800;
+            color: white;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .announcement-title {
+            font-weight: 600;
+            color: #2C3E50;
+            font-size: 14px;
+        }
+
+        .announcement-text {
+            font-size: 13px;
+            color: #546E7A;
+            margin-bottom: 8px;
+        }
+
+        .announcement-time {
+            font-size: 12px;
+            color: #90A4AE;
+        }
+
+        /* Attendance Card */
+        .attendance-display {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .attendance-clock {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .attendance-status {
+            font-size: 14px;
+            color: #78909C;
+            margin-bottom: 30px;
+        }
+
+        .clock-btn {
+            padding: 15px 50px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+
+        .clock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .clock-btn:active {
+            transform: translateY(0);
+        }
+
+        .attendance-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .attendance-detail {
+            text-align: center;
+            padding: 15px;
+            background: #F5F7FA;
+            border-radius: 12px;
+        }
+
+        .attendance-detail-label {
+            font-size: 12px;
+            color: #78909C;
+            margin-bottom: 5px;
+        }
+
+        .attendance-detail-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2C3E50;
+        }
+
+        /* Button */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 15px;
+            }
+
+            .welcome-banner {
+                padding: 25px;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Content Sections */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="assets/pulse-ops-logo.png" alt="Pulse Ops Logo">
+                <h1>PULSE OPS</h1>
+                <p style="border-left: 2px solid #E0E0E0; padding-left: 15px;">Employee Portal</p>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-page="attendance">My Attendance</a>
+                <a href="#" class="nav-link" data-page="schedule">My Schedule</a>
+                <a href="#" class="nav-link" data-page="leave">Leave Requests</a>
+                <a href="#" class="nav-link" data-page="reimbursement">Reimbursements</a>
+            </div>
+            <div class="user-section">
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User Avatar">
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">John Doe</div>
+                        <div style="font-size: 12px; color: #78909C;">Operations Team</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 12px; color: #78909C;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Dashboard Page -->
+        <div class="page-content active" id="dashboard">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <h2>Good Morning, John! 👋</h2>
+                <p>Here's your quick overview for today</p>
+                <div class="banner-stats">
+                    <div class="banner-stat">
+                        <div class="banner-stat-value">09:02 AM</div>
+                        <div class="banner-stat-label">Clock In Time</div>
+                    </div>
+                    <div class="banner-stat">
+                        <div class="banner-stat-value">7.5 hrs</div>
+                        <div class="banner-stat-label">Hours Worked Today</div>
+                    </div>
+                    <div class="banner-stat">
+                        <div class="banner-stat-value">15 Days</div>
+                        <div class="banner-stat-label">Leave Balance</div>
+                    </div>
+                    <div class="banner-stat">
+                        <div class="banner-stat-value">2 Shifts</div>
+                        <div class="banner-stat-label">Upcoming This Week</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions-section">
+                <h3 class="section-title">Quick Actions</h3>
+                <div class="quick-actions-grid">
+                    <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Clock In/Out</h3>
+                        <p>Mark your attendance for today</p>
+                    </div>
+                    <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <h3>Request Leave</h3>
+                        <p>Submit a new leave request</p>
+                    </div>
+                    <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <h3>Submit Expense</h3>
+                        <p>Claim reimbursement</p>
+                    </div>
+                    <div class="quick-action-card">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Download Reports</h3>
+                        <p>Get attendance & payslip</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div>
+                    <!-- Upcoming Schedule -->
+                    <div class="card" style="margin-bottom: 30px;">
+                        <div class="card-header">
+                            <h3 class="card-title">Upcoming Schedule</h3>
+                            <a href="#" class="card-action">View All</a>
+                        </div>
+                        <div class="schedule-list">
+                            <div class="schedule-item">
+                                <div class="schedule-date">
+                                    <div class="schedule-day">Mon</div>
+                                    <div class="schedule-num">11</div>
+                                </div>
+                                <div class="schedule-details">
+                                    <div class="schedule-time">09:00 AM - 05:00 PM</div>
+                                    <div class="schedule-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Client Site - TechCorp Office
+                                    </div>
+                                </div>
+                                <span class="schedule-status confirmed">Confirmed</span>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="schedule-date">
+                                    <div class="schedule-day">Wed</div>
+                                    <div class="schedule-num">13</div>
+                                </div>
+                                <div class="schedule-details">
+                                    <div class="schedule-time">10:00 AM - 06:00 PM</div>
+                                    <div class="schedule-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Remote Work
+                                    </div>
+                                </div>
+                                <span class="schedule-status pending">Pending</span>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="schedule-date">
+                                    <div class="schedule-day">Fri</div>
+                                    <div class="schedule-num">15</div>
+                                </div>
+                                <div class="schedule-details">
+                                    <div class="schedule-time">09:00 AM - 05:00 PM</div>
+                                    <div class="schedule-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Main Office
+                                    </div>
+                                </div>
+                                <span class="schedule-status confirmed">Confirmed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Attendance -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Today's Attendance</h3>
+                        </div>
+                        <div class="attendance-display">
+                            <div class="attendance-clock" id="current-time">09:02:45</div>
+                            <div class="attendance-status">Currently Clocked In</div>
+                            <button class="clock-btn">
+                                <i class="fas fa-sign-out-alt"></i> Clock Out
+                            </button>
+                            <div class="attendance-details">
+                                <div class="attendance-detail">
+                                    <div class="attendance-detail-label">Clock In</div>
+                                    <div class="attendance-detail-value">09:02 AM</div>
+                                </div>
+                                <div class="attendance-detail">
+                                    <div class="attendance-detail-label">Break Time</div>
+                                    <div class="attendance-detail-value">30 min</div>
+                                </div>
+                                <div class="attendance-detail">
+                                    <div class="attendance-detail-label">Worked</div>
+                                    <div class="attendance-detail-value">7h 30m</div>
+                                </div>
+                                <div class="attendance-detail">
+                                    <div class="attendance-detail-label">Status</div>
+                                    <div class="attendance-detail-value" style="color: #43A047;">On Time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <!-- Leave Balance -->
+                    <div class="card" style="margin-bottom: 30px;">
+                        <div class="card-header">
+                            <h3 class="card-title">Leave Balance</h3>
+                            <a href="#" class="card-action">Request Leave</a>
+                        </div>
+                        <div class="leave-types">
+                            <div class="leave-type">
+                                <div class="leave-info">
+                                    <h4>Casual Leave</h4>
+                                    <div class="leave-bar">
+                                        <div class="leave-progress" style="width: 60%;"></div>
+                                    </div>
+                                </div>
+                                <div class="leave-count">12/20</div>
+                            </div>
+                            <div class="leave-type">
+                                <div class="leave-info">
+                                    <h4>Sick Leave</h4>
+                                    <div class="leave-bar">
+                                        <div class="leave-progress" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <div class="leave-count">10/10</div>
+                            </div>
+                            <div class="leave-type">
+                                <div class="leave-info">
+                                    <h4>Paid Time Off</h4>
+                                    <div class="leave-bar">
+                                        <div class="leave-progress" style="width: 40%;"></div>
+                                    </div>
+                                </div>
+                                <div class="leave-count">6/15</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Announcements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Announcements</h3>
+                            <a href="#" class="card-action">View All</a>
+                        </div>
+                        <div>
+                            <div class="announcement-item">
+                                <div class="announcement-header">
+                                    <span class="announcement-badge">IMPORTANT</span>
+                                    <span class="announcement-title">Office Holiday Notice</span>
+                                </div>
+                                <div class="announcement-text">
+                                    Office will be closed on November 15th for the public holiday. Please plan your schedules accordingly.
+                                </div>
+                                <div class="announcement-time">
+                                    <i class="far fa-clock"></i> 2 hours ago
+                                </div>
+                            </div>
+                            <div class="announcement-item">
+                                <div class="announcement-header">
+                                    <span class="announcement-badge" style="background: #2196F3;">INFO</span>
+                                    <span class="announcement-title">New Policy Update</span>
+                                </div>
+                                <div class="announcement-text">
+                                    Updated reimbursement policy is now active. Please review the new guidelines in the policy section.
+                                </div>
+                                <div class="announcement-time">
+                                    <i class="far fa-clock"></i> Yesterday
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Page -->
+        <div class="page-content" id="attendance">
+            <div style="background: white; border-radius: 20px; padding: 40px; min-height: 500px;">
+                <h2 style="font-size: 28px; color: #2C3E50; margin-bottom: 30px;">My Attendance History</h2>
+                <div style="text-align: center; padding: 80px 0; color: #78909C;">
+                    <i class="fas fa-history" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                    <p>Monthly attendance calendar and detailed history</p>
+                    <p style="margin-top: 10px; font-size: 14px;">Features: Calendar view, clock in/out records, break tracking</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Page -->
+        <div class="page-content" id="schedule">
+            <div style="background: white; border-radius: 20px; padding: 40px; min-height: 500px;">
+                <h2 style="font-size: 28px; color: #2C3E50; margin-bottom: 30px;">My Work Schedule</h2>
+                <div style="text-align: center; padding: 80px 0; color: #78909C;">
+                    <i class="fas fa-calendar-week" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                    <p>View and manage your upcoming shifts</p>
+                    <p style="margin-top: 10px; font-size: 14px;">Features: Calendar view, shift confirmation, availability settings</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leave Page -->
+        <div class="page-content" id="leave">
+            <div style="background: white; border-radius: 20px; padding: 40px; min-height: 500px;">
+                <h2 style="font-size: 28px; color: #2C3E50; margin-bottom: 30px;">Leave Management</h2>
+                <div style="text-align: center; padding: 80px 0; color: #78909C;">
+                    <i class="fas fa-calendar-minus" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                    <p>Submit and track your leave requests</p>
+                    <p style="margin-top: 10px; font-size: 14px;">Features: Leave request form, balance tracking, history view</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reimbursement Page -->
+        <div class="page-content" id="reimbursement">
+            <div style="background: white; border-radius: 20px; padding: 40px; min-height: 500px;">
+                <h2 style="font-size: 28px; color: #2C3E50; margin-bottom: 30px;">Expense Reimbursements</h2>
+                <div style="text-align: center; padding: 80px 0; color: #78909C;">
+                    <i class="fas fa-receipt" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                    <p>Submit expense claims and track status</p>
+                    <p style="margin-top: 10px; font-size: 14px;">Features: Receipt upload, claim tracking, payment history</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+
+                // Add active class to clicked link
+                this.classList.add('active');
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // Clock button interaction
+        document.querySelector('.clock-btn').addEventListener('click', function() {
+            const isClockOut = this.innerHTML.includes('Clock Out');
+            if (isClockOut) {
+                this.innerHTML = '<i class="fas fa-sign-in-alt"></i> Clock In';
+                document.querySelector('.attendance-status').textContent = 'Currently Clocked Out';
+            } else {
+                this.innerHTML = '<i class="fas fa-sign-out-alt"></i> Clock Out';
+                document.querySelector('.attendance-status').textContent = 'Currently Clocked In';
+            }
+        });
+    </script>
+</body>
+</html>

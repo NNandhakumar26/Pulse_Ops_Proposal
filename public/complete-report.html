@@ -1,0 +1,5901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Ops - Complete Technical Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.8;
+            color: #2C3E50;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .meta-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .meta-info strong { color: #FFFFFF; }
+
+        .nav {
+            background: #34495E;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #2196F3;
+            transform: translateY(-2px);
+        }
+
+        .content { padding: 40px; }
+
+        .section {
+            margin-bottom: 50px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2196F3;
+            font-size: 2.8em;
+            margin: 40px 0 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(25, 118, 210, 0.1));
+            border-left: 6px solid #2196F3;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #1976D2;
+            font-size: 2.2em;
+            margin: 30px 0 20px 0;
+            padding: 15px;
+            background: #E3F2FD;
+            border-left: 5px solid #1976D2;
+            border-radius: 6px;
+        }
+
+        h3 {
+            color: #0D47A1;
+            font-size: 1.7em;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E3F2FD;
+        }
+
+        h3::before { content: '▸ '; color: #FF9800; }
+
+        h4 {
+            color: #424242;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p { margin: 12px 0; }
+
+        ul, ol { margin: 15px 0 15px 30px; }
+        li { margin: 8px 0; line-height: 1.7; }
+        strong { color: #1976D2; }
+
+        code {
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #C62828;
+            border: 1px solid #E0E0E0;
+        }
+
+        pre {
+            background: #263238;
+            color: #ECEFF1;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #37474F;
+        }
+
+        pre code {
+            background: none;
+            border: none;
+            color: #ECEFF1;
+            padding: 0;
+        }
+
+        /* Collapsible code blocks */
+        .code-block-container {
+            margin: 20px 0;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .code-block-header {
+            background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
+            color: white;
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.3s;
+        }
+
+        .code-block-header:hover {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .code-block-header span {
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .code-block-toggle {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .code-block-toggle.expanded {
+            transform: rotate(180deg);
+        }
+
+        .code-block-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .code-block-content.expanded {
+            max-height: 2000px;
+        }
+
+        .code-block-content pre {
+            margin: 0;
+            border-radius: 0;
+            border: none;
+        }
+
+        /* HTML Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        tbody tr:hover {
+            background: #F5F9FF;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .diagram-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px solid #E3F2FD;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 25px;
+            text-align: center;
+            padding: 15px;
+            background: #E3F2FD;
+            border-radius: 8px;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            min-height: 600px;
+        }
+
+        #section-architecture .mermaid { min-height: 800px; }
+        #section-deployment .mermaid { min-height: 800px; }
+
+        hr {
+            border: none;
+            border-top: 2px solid #E0E0E0;
+            margin: 30px 0;
+        }
+
+        .footer {
+            background: #263238;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2196F3;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            font-size: 24px;
+        }
+
+        #back-to-top:hover {
+            background: #1976D2;
+            transform: translateY(-5px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header h1 { font-size: 2em; }
+            .content { padding: 20px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.3em; }
+            .mermaid { min-height: 400px; }
+            #section-architecture .mermaid { min-height: 500px; }
+            #section-deployment .mermaid { min-height: 500px; }
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .nav, #back-to-top { display: none; }
+            .section { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 PULSE OPS</h1>
+            <p>Complete Technical Documentation</p>
+            <div class="meta-info">
+                <p><strong>Version:</strong> 1.0.0 | <strong>Generated:</strong> November 08, 2025</p>
+                <p><strong>Platform:</strong> Workforce Management System</p>
+                <p><strong>Complete Documentation:</strong> All details included</p>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <div class="nav-links">
+                <a href="#section-architecture">Architecture</a>
+                <a href="#section-applications">Applications</a>
+                <a href="#section-api">API Specs</a>
+                <a href="#section-deployment">Deployment</a>
+            </div>
+        </nav>
+
+        <div class="content">
+            <section id="section-architecture" class="section">
+                <h1>Pulse Ops - System Architecture & Database Schema</h1>
+
+<h2>1. High-Level System Architecture</h2>
+
+<div class="diagram-container"><div class="diagram-title">Figure 1</div><div class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        WEB[Web Application<br/>React.js]
+        MOBILE[Mobile App<br/>Flutter]
+        ADMIN[Admin Dashboard<br/>React.js]
+    end
+    
+    subgraph "API Gateway Layer"
+        GATEWAY[API Gateway<br/>Express.js + Node.js]
+        AUTH[Authentication Service<br/>JWT + OAuth]
+    end
+    
+    subgraph "Application Services Layer"
+        SCHED[Scheduling Service]
+        ATTEND[Attendance Service]
+        LEAVE[Leave Management]
+        REIMB[Reimbursement Service]
+        NOTIFY[Notification Service]
+        REPORT[Reporting Service]
+        CLIENT[Client Billing Service]
+    end
+    
+    subgraph "Data Layer"
+        MONGO[(MongoDB<br/>Primary Database)]
+        REDIS[(Redis Cache<br/>Session & Real-time)]
+        S3[Cloud Storage<br/>AWS S3/Cloudinary<br/>Documents & Images]
+    end
+    
+    subgraph "External Services"
+        EMAIL[Email Service<br/>SendGrid/AWS SES]
+        PUSH[Push Notifications<br/>Firebase/OneSignal]
+        PAYMENT[Payment Gateway<br/>Stripe/Razorpay]
+    end
+    
+    WEB --> GATEWAY
+    MOBILE --> GATEWAY
+    ADMIN --> GATEWAY
+    
+    GATEWAY --> AUTH
+    GATEWAY --> SCHED
+    GATEWAY --> ATTEND
+    GATEWAY --> LEAVE
+    GATEWAY --> REIMB
+    GATEWAY --> NOTIFY
+    GATEWAY --> REPORT
+    GATEWAY --> CLIENT
+    
+    SCHED --> MONGO
+    ATTEND --> MONGO
+    LEAVE --> MONGO
+    REIMB --> MONGO
+    NOTIFY --> MONGO
+    REPORT --> MONGO
+    CLIENT --> MONGO
+    
+    AUTH --> REDIS
+    ATTEND --> REDIS
+    
+    REIMB --> S3
+    NOTIFY --> EMAIL
+    NOTIFY --> PUSH
+    REIMB --> PAYMENT
+    
+    style WEB fill:#e1f5ff
+    style MOBILE fill:#e1f5ff
+    style ADMIN fill:#e1f5ff
+    style GATEWAY fill:#fff4e6
+    style AUTH fill:#fff4e6
+    style MONGO fill:#e8f5e9
+    style REDIS fill:#ffebee
+    style S3 fill:#f3e5f5
+</div></div>
+<h2>2. Database Schema Design</h2>
+
+<h3>Core Collections</h3>
+
+<h4>2.1 Users Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  employeeId: String (unique, indexed),
+  username: String (unique, indexed),
+  passwordHash: String,
+  
+  // Personal Information
+  personalInfo: {
+    firstName: String,
+    lastName: String,
+    email: String (unique, indexed),
+    phone: String,
+    dateOfBirth: Date,
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      country: String,
+      zipCode: String
+    },
+    emergencyContact: {
+      name: String,
+      relationship: String,
+      phone: String
+    }
+  },
+  
+  // Employment Details
+  employment: {
+    role: Enum ['admin', 'hr', 'manager', 'employee', 'client'],
+    department: String,
+    designation: String,
+    dateOfJoining: Date,
+    employmentType: Enum ['full-time', 'part-time', 'contract'],
+    reportingManager: ObjectId (ref: Users),
+    location: String,
+    workingHours: {
+      startTime: String,
+      endTime: String,
+      weeklyOff: [String]
+    }
+  },
+  
+  // Access Control
+  permissions: {
+    modules: [String],
+    canApproveLeave: Boolean,
+    canApproveReimbursement: Boolean,
+    canManageSchedule: Boolean,
+    canViewReports: Boolean
+  },
+  
+  // IP Whitelist for Clock-in
+  allowedIPs: [String],
+  
+  // Leave Balance
+  leaveBalance: {
+    casual: Number,
+    sick: Number,
+    earned: Number,
+    compOff: Number
+  },
+  
+  // System Fields
+  isActive: Boolean (default: true, indexed),
+  lastLogin: Date,
+  createdAt: Date,
+  updatedAt: Date,
+  createdBy: ObjectId (ref: Users),
+  updatedBy: ObjectId (ref: Users)
+}
+</code></pre>
+
+<h4>2.2 Schedules Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  scheduleType: Enum ['weekly', 'monthly', 'custom'],
+  
+  // Schedule Period
+  startDate: Date (indexed),
+  endDate: Date (indexed),
+  
+  // Schedule Details
+  shifts: [{
+    employeeId: ObjectId (ref: Users, indexed),
+    clientId: ObjectId (ref: Clients, indexed),
+    shiftDate: Date (indexed),
+    startTime: String,
+    endTime: String,
+    breakDuration: Number (minutes),
+    location: String,
+    notes: String,
+    
+    // Confirmation Status
+    confirmationStatus: Enum ['pending', 'confirmed', 'declined', 'no-response'],
+    confirmationTime: Date,
+    declineReason: String,
+    
+    // Reminder
+    reminderSent: Boolean,
+    reminderSentAt: Date
+  }],
+  
+  // Management
+  publishedBy: ObjectId (ref: Users),
+  publishedAt: Date,
+  isPublished: Boolean (default: false, indexed),
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date,
+  createdBy: ObjectId (ref: Users),
+  updatedBy: ObjectId (ref: Users)
+}
+</code></pre>
+
+<h4>2.3 Attendance Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  employeeId: ObjectId (ref: Users, indexed),
+  date: Date (indexed),
+  
+  // Clock In/Out Details
+  clockIn: {
+    time: Date,
+    ipAddress: String,
+    location: {
+      type: String (default: 'Point'),
+      coordinates: [Number] (long, lat)
+    },
+    deviceInfo: String
+  },
+  
+  clockOut: {
+    time: Date,
+    ipAddress: String,
+    location: {
+      type: String (default: 'Point'),
+      coordinates: [Number]
+    },
+    deviceInfo: String
+  },
+  
+  // Break Management
+  breaks: [{
+    breakStart: Date,
+    breakEnd: Date,
+    breakType: Enum ['lunch', 'tea', 'other'],
+    duration: Number (minutes)
+  }],
+  
+  // Calculated Fields
+  totalWorkHours: Number,
+  totalBreakHours: Number,
+  netWorkHours: Number,
+  
+  // Status &amp; Policy
+  attendanceStatus: Enum ['present', 'absent', 'half-day', 'late', 'on-leave'],
+  lateMinutes: Number,
+  earlyLeaveMinutes: Number,
+  overtimeHours: Number,
+  
+  // Client Association
+  clientId: ObjectId (ref: Clients),
+  billableHours: Number,
+  
+  // Notes &amp; Verification
+  hrNotes: String,
+  managerNotes: String,
+  isVerified: Boolean (default: false),
+  verifiedBy: ObjectId (ref: Users),
+  verifiedAt: Date,
+  
+  // Alerts
+  alertGenerated: Boolean,
+  alertType: Enum ['late', 'forgot-clockin', 'forgot-clockout', 'absent'],
+  alertSentTo: [ObjectId] (ref: Users),
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date
+}
+
+// Compound Index
+Index: { employeeId: 1, date: -1 }
+Index: { date: 1, attendanceStatus: 1 }
+</code></pre>
+
+<h4>2.4 Leave Requests Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  employeeId: ObjectId (ref: Users, indexed),
+  
+  // Leave Details
+  leaveType: Enum ['casual', 'sick', 'earned', 'compOff', 'unpaid'],
+  startDate: Date (indexed),
+  endDate: Date (indexed),
+  numberOfDays: Number,
+  halfDay: Boolean (default: false),
+  
+  // Request Details
+  reason: String,
+  attachments: [String] (URLs),
+  
+  // Approval Workflow
+  status: Enum ['pending', 'approved', 'rejected', 'cancelled'] (indexed),
+  approvalFlow: [{
+    approverId: ObjectId (ref: Users),
+    approverRole: String,
+    action: Enum ['approved', 'rejected'],
+    actionDate: Date,
+    comments: String
+  }],
+  
+  // Auto-approval
+  autoApproved: Boolean,
+  autoApprovalReason: String,
+  
+  // Notifications
+  notificationsSent: [{
+    recipientId: ObjectId (ref: Users),
+    notificationType: String,
+    sentAt: Date
+  }],
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date,
+  cancelledAt: Date,
+  cancelReason: String
+}
+
+// Compound Index
+Index: { employeeId: 1, startDate: -1 }
+Index: { status: 1, createdAt: -1 }
+</code></pre>
+
+<h4>2.5 Reimbursements Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  employeeId: ObjectId (ref: Users, indexed),
+  
+  // Reimbursement Details
+  category: Enum ['travel', 'food', 'accommodation', 'supplies', 'other'],
+  amount: Number,
+  currency: Enum ['USD', 'GBP', 'INR'],
+  
+  // Transaction Info
+  expenseDate: Date (indexed),
+  merchantName: String,
+  description: String,
+  
+  // Documentation
+  receipts: [{
+    fileUrl: String,
+    fileName: String,
+    fileType: String,
+    uploadedAt: Date
+  }],
+  
+  // Approval Workflow
+  status: Enum ['pending', 'approved', 'rejected', 'paid'] (indexed),
+  approvedBy: ObjectId (ref: Users),
+  approvedAt: Date,
+  approvalComments: String,
+  
+  rejectedBy: ObjectId (ref: Users),
+  rejectedAt: Date,
+  rejectionReason: String,
+  
+  // Payment Details
+  paymentMethod: Enum ['bank-transfer', 'cash', 'payroll'],
+  paymentDate: Date,
+  paymentReference: String,
+  paidBy: ObjectId (ref: Users),
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date
+}
+
+// Compound Index
+Index: { employeeId: 1, status: 1 }
+Index: { status: 1, expenseDate: -1 }
+</code></pre>
+
+<h4>2.6 Clients Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  clientCode: String (unique, indexed),
+  
+  // Client Information
+  companyName: String,
+  contactPerson: {
+    name: String,
+    email: String,
+    phone: String,
+    designation: String
+  },
+  
+  // Address
+  address: {
+    street: String,
+    city: String,
+    state: String,
+    country: String,
+    zipCode: String
+  },
+  
+  // Billing Information
+  billing: {
+    hourlyRate: Number,
+    currency: Enum ['USD', 'GBP', 'INR'],
+    paymentTerms: String,
+    billingCycle: Enum ['weekly', 'bi-weekly', 'monthly'],
+    taxId: String
+  },
+  
+  // Contract Details
+  contractStartDate: Date,
+  contractEndDate: Date,
+  contractType: Enum ['hourly', 'fixed', 'retainer'],
+  
+  // Client Portal Access
+  portalAccess: {
+    username: String,
+    passwordHash: String,
+    isActive: Boolean,
+    lastLogin: Date
+  },
+  
+  // Associated Employees
+  assignedEmployees: [ObjectId] (ref: Users),
+  
+  // System Fields
+  isActive: Boolean (default: true, indexed),
+  createdAt: Date,
+  updatedAt: Date,
+  createdBy: ObjectId (ref: Users),
+  updatedBy: ObjectId (ref: Users)
+}
+</code></pre>
+
+<h4>2.7 Announcements Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // Announcement Details
+  title: String,
+  content: String,
+  category: Enum ['policy', 'holiday', 'event', 'alert', 'general'],
+  priority: Enum ['low', 'medium', 'high', 'urgent'],
+  
+  // Targeting
+  targetAudience: {
+    roles: [String],
+    departments: [String],
+    locations: [String],
+    specificUsers: [ObjectId] (ref: Users)
+  },
+  
+  // Attachments
+  attachments: [{
+    fileUrl: String,
+    fileName: String,
+    fileType: String
+  }],
+  
+  // Scheduling
+  publishDate: Date (indexed),
+  expiryDate: Date,
+  isRecurring: Boolean,
+  recurringSchedule: {
+    frequency: Enum ['daily', 'weekly', 'monthly'],
+    daysOfWeek: [Number],
+    dayOfMonth: Number
+  },
+  
+  // Status
+  status: Enum ['draft', 'published', 'archived'] (indexed),
+  publishedBy: ObjectId (ref: Users),
+  
+  // Engagement Tracking
+  views: [{
+    userId: ObjectId (ref: Users),
+    viewedAt: Date
+  }],
+  
+  acknowledgmentRequired: Boolean,
+  acknowledgments: [{
+    userId: ObjectId (ref: Users),
+    acknowledgedAt: Date
+  }],
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date,
+  createdBy: ObjectId (ref: Users)
+}
+</code></pre>
+
+<h4>2.8 Holidays Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // Holiday Details
+  name: String,
+  date: Date (indexed),
+  description: String,
+  
+  // Location Specific
+  locations: [String],
+  isOptional: Boolean,
+  
+  // Type
+  holidayType: Enum ['national', 'regional', 'company'],
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date,
+  createdBy: ObjectId (ref: Users)
+}
+
+// Compound Index
+Index: { date: 1, locations: 1 }
+</code></pre>
+
+<h4>2.9 Audit Logs Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // User &amp; Action
+  userId: ObjectId (ref: Users, indexed),
+  action: String (indexed),
+  module: String (indexed),
+  
+  // Details
+  entityType: String,
+  entityId: ObjectId,
+  
+  // Changes
+  oldValues: Object,
+  newValues: Object,
+  
+  // Request Info
+  ipAddress: String,
+  userAgent: String,
+  
+  // System Fields
+  timestamp: Date (indexed),
+  
+  // Additional Context
+  metadata: Object
+}
+
+// TTL Index for automatic deletion after 2 years
+Index: { timestamp: 1 }, { expireAfterSeconds: 63072000 }
+</code></pre>
+
+<h4>2.10 Notifications Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // Recipient
+  userId: ObjectId (ref: Users, indexed),
+  
+  // Notification Details
+  type: Enum ['shift-reminder', 'leave-status', 'reimbursement-status', 
+               'announcement', 'policy-update', 'birthday', 'anniversary'],
+  title: String,
+  message: String,
+  
+  // Delivery Channels
+  channels: {
+    email: Boolean,
+    push: Boolean,
+    inApp: Boolean
+  },
+  
+  // Status
+  status: Enum ['pending', 'sent', 'failed', 'read'] (indexed),
+  sentAt: Date,
+  readAt: Date,
+  
+  // Related Entity
+  relatedEntity: {
+    entityType: String,
+    entityId: ObjectId
+  },
+  
+  // Action Button (optional)
+  actionButton: {
+    label: String,
+    actionType: String,
+    actionUrl: String
+  },
+  
+  // System Fields
+  createdAt: Date (indexed),
+  expiresAt: Date
+}
+
+// Compound Index
+Index: { userId: 1, status: 1, createdAt: -1 }
+// TTL Index for automatic deletion
+Index: { expiresAt: 1 }, { expireAfterSeconds: 0 }
+</code></pre>
+
+<h4>2.11 Timesheets Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // Period
+  periodType: Enum ['weekly', 'bi-weekly', 'monthly'],
+  startDate: Date (indexed),
+  endDate: Date (indexed),
+  
+  // Employee &amp; Client
+  employeeId: ObjectId (ref: Users, indexed),
+  clientId: ObjectId (ref: Clients, indexed),
+  
+  // Entries (aggregated from Attendance)
+  entries: [{
+    date: Date,
+    attendanceId: ObjectId (ref: Attendance),
+    hoursWorked: Number,
+    billableHours: Number,
+    overtimeHours: Number,
+    notes: String
+  }],
+  
+  // Summary
+  summary: {
+    totalHours: Number,
+    totalBillableHours: Number,
+    totalOvertimeHours: Number,
+    totalDaysWorked: Number
+  },
+  
+  // Verification &amp; Approval
+  status: Enum ['draft', 'submitted', 'approved', 'rejected', 'invoiced'] (indexed),
+  
+  employeeVerified: Boolean,
+  employeeVerifiedAt: Date,
+  
+  managerApproved: Boolean,
+  managerApprovedBy: ObjectId (ref: Users),
+  managerApprovedAt: Date,
+  managerComments: String,
+  
+  hrVerified: Boolean,
+  hrVerifiedBy: ObjectId (ref: Users),
+  hrVerifiedAt: Date,
+  hrComments: String,
+  
+  // Billing
+  clientRate: Number,
+  currency: String,
+  totalAmount: Number,
+  invoiceGenerated: Boolean,
+  invoiceNumber: String,
+  invoiceDate: Date,
+  
+  // System Fields
+  createdAt: Date,
+  updatedAt: Date,
+  createdBy: ObjectId (ref: Users)
+}
+
+// Compound Index
+Index: { employeeId: 1, startDate: -1 }
+Index: { clientId: 1, status: 1 }
+</code></pre>
+
+<h4>2.12 Reports Collection (Cached)</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // Report Metadata
+  reportType: Enum ['attendance', 'leave', 'reimbursement', 'billing', 
+                    'performance', 'client', 'payroll'],
+  reportName: String,
+  
+  // Filters Used
+  filters: {
+    startDate: Date,
+    endDate: Date,
+    employeeIds: [ObjectId],
+    clientIds: [ObjectId],
+    departments: [String],
+    locations: [String]
+  },
+  
+  // Report Data (cached)
+  data: Object,
+  
+  // File Export
+  exportedFile: {
+    fileUrl: String,
+    fileType: Enum ['excel', 'pdf', 'csv'],
+    generatedAt: Date
+  },
+  
+  // Access
+  generatedBy: ObjectId (ref: Users, indexed),
+  sharedWith: [ObjectId] (ref: Users),
+  
+  // System Fields
+  createdAt: Date (indexed),
+  expiresAt: Date
+}
+
+// TTL Index for automatic deletion after 30 days
+Index: { expiresAt: 1 }, { expireAfterSeconds: 0 }
+</code></pre>
+
+<h4>2.13 System Settings Collection</h4>
+<pre><code>
+{
+  _id: ObjectId,
+  
+  // Setting Type
+  category: String (unique, indexed),
+  
+  // Configuration
+  settings: {
+    // Attendance Policies
+    attendancePolicies: {
+      lateThresholdMinutes: Number (default: 8),
+      halfDayThresholdMinutes: Number (default: 30),
+      gracePerioddMinutes: Number (default: 5),
+      overtimeThresholdHours: Number (default: 8)
+    },
+    
+    // Leave Policies
+    leavePolicies: {
+      casualLeavePerYear: Number,
+      sickLeavePerYear: Number,
+      earnedLeavePerYear: Number,
+      minimumNoticeHours: Number,
+      maxConsecutiveDays: Number
+    },
+    
+    // Notifications
+    notificationSettings: {
+      shiftReminderHours: Number (default: 1),
+      enableEmailNotifications: Boolean,
+      enablePushNotifications: Boolean,
+      birthdayReminder: Boolean,
+      anniversaryReminder: Boolean
+    },
+    
+    // Security
+    securitySettings: {
+      sessionTimeoutMinutes: Number,
+      passwordExpiryDays: Number,
+      maxLoginAttempts: Number,
+      ipWhitelistEnabled: Boolean
+    },
+    
+    // Billing
+    billingSettings: {
+      defaultCurrency: String,
+      taxRates: Object,
+      invoicePrefix: String,
+      paymentTermsDays: Number
+    }
+  },
+  
+  // System Fields
+  updatedAt: Date,
+  updatedBy: ObjectId (ref: Users)
+}
+</code></pre>
+
+<h2>3. Entity Relationship Diagram</h2>
+
+<div class="diagram-container"><div class="diagram-title">Figure 2</div><div class="mermaid">
+erDiagram
+    USERS ||--o{ ATTENDANCE : records
+    USERS ||--o{ SCHEDULES : manages
+    USERS ||--o{ LEAVE_REQUESTS : submits
+    USERS ||--o{ REIMBURSEMENTS : claims
+    USERS ||--o{ TIMESHEETS : completes
+    USERS ||--o{ AUDIT_LOGS : performs
+    USERS ||--o{ NOTIFICATIONS : receives
+    USERS }o--|| USERS : reports-to
+    
+    CLIENTS ||--o{ SCHEDULES : assigned
+    CLIENTS ||--o{ ATTENDANCE : associated
+    CLIENTS ||--o{ TIMESHEETS : billable-to
+    CLIENTS }o--o{ USERS : assigned-employees
+    
+    SCHEDULES ||--o{ ATTENDANCE : generates
+    
+    ATTENDANCE ||--|| TIMESHEETS : aggregated-into
+    
+    HOLIDAYS }o--o{ LOCATIONS : applicable-to
+    
+    ANNOUNCEMENTS }o--o{ USERS : targets
+    
+    REPORTS }o--o{ USERS : generated-by
+    
+    USERS {
+        ObjectId _id PK
+        String employeeId UK
+        String username UK
+        String email UK
+        Object personalInfo
+        Object employment
+        Object permissions
+        Array allowedIPs
+        Object leaveBalance
+        Boolean isActive
+    }
+    
+    SCHEDULES {
+        ObjectId _id PK
+        String scheduleType
+        Date startDate
+        Date endDate
+        Array shifts
+        Boolean isPublished
+    }
+    
+    ATTENDANCE {
+        ObjectId _id PK
+        ObjectId employeeId FK
+        Date date
+        Object clockIn
+        Object clockOut
+        Array breaks
+        Number totalWorkHours
+        String attendanceStatus
+        ObjectId clientId FK
+        Number billableHours
+    }
+    
+    CLIENTS {
+        ObjectId _id PK
+        String clientCode UK
+        String companyName
+        Object contactPerson
+        Object billing
+        Boolean isActive
+    }
+    
+    LEAVE_REQUESTS {
+        ObjectId _id PK
+        ObjectId employeeId FK
+        String leaveType
+        Date startDate
+        Date endDate
+        String status
+        Array approvalFlow
+    }
+    
+    REIMBURSEMENTS {
+        ObjectId _id PK
+        ObjectId employeeId FK
+        String category
+        Number amount
+        String currency
+        String status
+        Array receipts
+    }
+    
+    TIMESHEETS {
+        ObjectId _id PK
+        ObjectId employeeId FK
+        ObjectId clientId FK
+        Date startDate
+        Date endDate
+        Array entries
+        Object summary
+        String status
+    }
+    
+    ANNOUNCEMENTS {
+        ObjectId _id PK
+        String title
+        String content
+        String category
+        Object targetAudience
+        Date publishDate
+        String status
+    }
+    
+    HOLIDAYS {
+        ObjectId _id PK
+        String name
+        Date date
+        Array locations
+        String holidayType
+    }
+    
+    NOTIFICATIONS {
+        ObjectId _id PK
+        ObjectId userId FK
+        String type
+        String message
+        String status
+        Date createdAt
+    }
+    
+    AUDIT_LOGS {
+        ObjectId _id PK
+        ObjectId userId FK
+        String action
+        String module
+        Date timestamp
+    }
+    
+    REPORTS {
+        ObjectId _id PK
+        String reportType
+        Object filters
+        Object data
+        ObjectId generatedBy FK
+    }
+</div></div>
+<h2>4. Database Indexes Strategy</h2>
+
+<h3>Critical Indexes for Performance</h3>
+
+<pre><code>
+// Users Collection
+db.users.createIndex({ "employeeId": 1 }, { unique: true })
+db.users.createIndex({ "username": 1 }, { unique: true })
+db.users.createIndex({ "personalInfo.email": 1 }, { unique: true })
+db.users.createIndex({ "isActive": 1, "employment.role": 1 })
+
+// Attendance Collection
+db.attendance.createIndex({ "employeeId": 1, "date": -1 })
+db.attendance.createIndex({ "date": 1, "attendanceStatus": 1 })
+db.attendance.createIndex({ "clientId": 1, "date": -1 })
+
+// Schedules Collection
+db.schedules.createIndex({ "startDate": 1, "endDate": 1 })
+db.schedules.createIndex({ "shifts.employeeId": 1, "shifts.shiftDate": 1 })
+db.schedules.createIndex({ "isPublished": 1 })
+
+// Leave Requests Collection
+db.leaveRequests.createIndex({ "employeeId": 1, "startDate": -1 })
+db.leaveRequests.createIndex({ "status": 1, "createdAt": -1 })
+
+// Reimbursements Collection
+db.reimbursements.createIndex({ "employeeId": 1, "status": 1 })
+db.reimbursements.createIndex({ "status": 1, "expenseDate": -1 })
+
+// Timesheets Collection
+db.timesheets.createIndex({ "employeeId": 1, "startDate": -1 })
+db.timesheets.createIndex({ "clientId": 1, "status": 1 })
+
+// Notifications Collection
+db.notifications.createIndex({ "userId": 1, "status": 1, "createdAt": -1 })
+db.notifications.createIndex({ "expiresAt": 1 }, { expireAfterSeconds: 0 })
+
+// Audit Logs Collection
+db.auditLogs.createIndex({ "userId": 1, "timestamp": -1 })
+db.auditLogs.createIndex({ "timestamp": 1 }, { expireAfterSeconds: 63072000 })
+</code></pre>
+
+<hr>
+
+            </section>
+
+            <section id="section-applications" class="section">
+                <h1>Pulse Ops - Application Scopes & Features</h1>
+
+<h2>Application Architecture Overview</h2>
+
+<div class="diagram-container"><div class="diagram-title">Figure 3</div><div class="mermaid">
+graph TB
+    subgraph "Frontend Applications"
+        WEB_ADMIN[Admin Web Dashboard<br/>React.js<br/>Port: 3000]
+        WEB_EMP[Employee Web Portal<br/>React.js<br/>Port: 3001]
+        WEB_CLIENT[Client Portal<br/>React.js<br/>Port: 3002]
+        MOBILE[Mobile App<br/>Flutter<br/>iOS + Android]
+    end
+    
+    subgraph "Backend Services"
+        API[API Gateway<br/>Express + Node.js<br/>Port: 5000]
+        AUTH_SVC[Auth Service<br/>Port: 5001]
+        SCHEDULE_SVC[Schedule Service<br/>Port: 5002]
+        ATTENDANCE_SVC[Attendance Service<br/>Port: 5003]
+        NOTIFY_SVC[Notification Service<br/>Port: 5004]
+        REPORT_SVC[Report Service<br/>Port: 5005]
+    end
+    
+    subgraph "Data Layer"
+        MONGODB[(MongoDB)]
+        REDIS[(Redis)]
+        S3[Cloud Storage]
+    end
+    
+    WEB_ADMIN --> API
+    WEB_EMP --> API
+    WEB_CLIENT --> API
+    MOBILE --> API
+    
+    API --> AUTH_SVC
+    API --> SCHEDULE_SVC
+    API --> ATTENDANCE_SVC
+    API --> NOTIFY_SVC
+    API --> REPORT_SVC
+    
+    AUTH_SVC --> MONGODB
+    AUTH_SVC --> REDIS
+    SCHEDULE_SVC --> MONGODB
+    ATTENDANCE_SVC --> MONGODB
+    ATTENDANCE_SVC --> REDIS
+    NOTIFY_SVC --> MONGODB
+    REPORT_SVC --> MONGODB
+    REPORT_SVC --> S3
+</div></div>
+<hr>
+
+<h2>1. Admin Web Dashboard (React.js)</h2>
+
+<h3>Purpose</h3>
+<p>Primary management interface for HR, Admins, and Managers to control all system operations.</p>
+
+<h3>Target Users</h3>
+<li>System Administrators</li>
+<li>HR Personnel</li>
+<li>Department Managers</li>
+
+<h3>Technology Stack</h3>
+<li><strong>Framework:</strong> React 18+ with TypeScript</li>
+<li><strong>State Management:</strong> Redux Toolkit + RTK Query</li>
+<li><strong>UI Library:</strong> Material-UI (MUI) or Ant Design</li>
+<li><strong>Charts:</strong> Recharts / Chart.js</li>
+<li><strong>Forms:</strong> React Hook Form + Yup validation</li>
+<li><strong>Table Management:</strong> TanStack Table (React Table v8)</li>
+<li><strong>Date Handling:</strong> date-fns</li>
+<li><strong>API Client:</strong> Axios with interceptors</li>
+<li><strong>Build Tool:</strong> Vite</li>
+
+<h3>Core Features & Modules</h3>
+
+<h4>1.1 Dashboard Module</h4>
+<p><strong>Features:</strong></p>
+<li>Real-time overview cards (Who's in, Late, Absent, On Leave)</li>
+<li>Today's schedule summary</li>
+<li>Pending approvals count (Leave, Reimbursement)</li>
+<li>Quick stats (Monthly attendance %, Overtime hours)</li>
+<li>Recent alerts and notifications</li>
+<li>Attendance trend charts (7-day, 30-day)</li>
+<li>Client billing summary</li>
+<li>Upcoming holidays</li>
+
+<p><strong>Components:</strong></p>
+<li><code>DashboardLayout.tsx</code></li>
+<li><code>StatsCard.tsx</code></li>
+<li><code>AttendanceTrendChart.tsx</code></li>
+<li><code>PendingApprovalsWidget.tsx</code></li>
+<li><code>QuickActionsMenu.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/dashboard/stats</code></li>
+<li><code>GET /api/dashboard/real-time-attendance</code></li>
+<li><code>GET /api/dashboard/pending-approvals</code></li>
+<li><code>GET /api/dashboard/alerts</code></li>
+
+<hr>
+
+<h4>1.2 User Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>Add / Edit / Deactivate employees</li>
+<li>Role-based permission assignment</li>
+<li>Department and hierarchy management</li>
+<li>Bulk user import (CSV/Excel)</li>
+<li>IP whitelist management per user</li>
+<li>Password reset and account recovery</li>
+<li>Employee profile view with full history</li>
+<li>Leave balance management</li>
+<li>Work schedule assignment</li>
+
+<p><strong>Components:</strong></p>
+<li><code>UserListTable.tsx</code></li>
+<li><code>UserForm.tsx</code></li>
+<li><code>UserProfileView.tsx</code></li>
+<li><code>BulkImportDialog.tsx</code></li>
+<li><code>PermissionMatrix.tsx</code></li>
+<li><code>IPWhitelistManager.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/users</code></li>
+<li><code>POST /api/users</code></li>
+<li><code>PUT /api/users/:id</code></li>
+<li><code>DELETE /api/users/:id</code></li>
+<li><code>POST /api/users/bulk-import</code></li>
+<li><code>PUT /api/users/:id/permissions</code></li>
+<li><code>PUT /api/users/:id/leave-balance</code></li>
+
+<p><strong>Validations:</strong></p>
+<li>Unique employee ID</li>
+<li>Valid email format</li>
+<li>Strong password requirements</li>
+<li>Valid IP address format</li>
+<li>Required fields enforcement</li>
+
+<hr>
+
+<h4>1.3 Schedule Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>Create weekly/monthly schedules</li>
+<li>Drag-and-drop shift assignment</li>
+<li>Clone previous schedules</li>
+<li>Bulk shift creation</li>
+<li>Shift conflict detection</li>
+<li>Employee availability checking</li>
+<li>Client assignment per shift</li>
+<li>Publish/Unpublish schedules</li>
+<li>View shift confirmations</li>
+<li>Handle shift declinations</li>
+<li>Send manual reminders</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ScheduleCalendar.tsx</code></li>
+<li><code>ShiftCreationForm.tsx</code></li>
+<li><code>ShiftAssignmentGrid.tsx</code></li>
+<li><code>ScheduleTemplateManager.tsx</code></li>
+<li><code>ShiftConfirmationTracker.tsx</code></li>
+<li><code>ConflictResolutionPanel.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/schedules</code></li>
+<li><code>POST /api/schedules</code></li>
+<li><code>PUT /api/schedules/:id</code></li>
+<li><code>POST /api/schedules/:id/publish</code></li>
+<li><code>GET /api/schedules/:id/confirmations</code></li>
+<li><code>POST /api/schedules/shifts/:id/reminder</code></li>
+
+<p><strong>Business Logic:</strong></p>
+<li>Prevent double-booking</li>
+<li>Check employee leave status</li>
+<li>Validate shift timing (min/max hours)</li>
+<li>Auto-send reminders 1 hour before shift</li>
+<li>Track confirmation status</li>
+
+<hr>
+
+<h4>1.4 Attendance Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>Live attendance dashboard</li>
+<li>Manual attendance entry (for offline situations)</li>
+<li>Attendance correction/adjustment</li>
+<li>Break time management</li>
+<li>View detailed clock-in/out logs</li>
+<li>Late arrival alerts</li>
+<li>Missing clock-out alerts</li>
+<li>Bulk attendance approval</li>
+<li>Attendance anomaly detection</li>
+<li>Export attendance reports</li>
+
+<p><strong>Components:</strong></p>
+<li><code>AttendanceMonitor.tsx</code></li>
+<li><code>ManualEntryForm.tsx</code></li>
+<li><code>AttendanceCorrectionDialog.tsx</code></li>
+<li><code>BreakLogViewer.tsx</code></li>
+<li><code>AlertsPanel.tsx</code></li>
+<li><code>AttendanceReportExporter.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/attendance</code></li>
+<li><code>GET /api/attendance/today</code></li>
+<li><code>POST /api/attendance/manual-entry</code></li>
+<li><code>PUT /api/attendance/:id/correct</code></li>
+<li><code>GET /api/attendance/alerts</code></li>
+<li><code>POST /api/attendance/bulk-approve</code></li>
+
+<p><strong>Validations:</strong></p>
+<li>Clock-out must be after clock-in</li>
+<li>Total hours must be reasonable (< 24 hours)</li>
+<li>Break times within shift boundaries</li>
+<li>No duplicate entries for same date</li>
+
+<hr>
+
+<h4>1.5 Leave Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>View all leave requests (grid/calendar view)</li>
+<li>Approve/Reject leave requests</li>
+<li>Bulk approval actions</li>
+<li>Leave balance tracking per employee</li>
+<li>Holiday calendar management</li>
+<li>Auto-approval rule configuration</li>
+<li>Leave conflict detection</li>
+<li>Leave history and trends</li>
+<li>Export leave reports</li>
+<li>Leave policy management</li>
+
+<p><strong>Components:</strong></p>
+<li><code>LeaveRequestsTable.tsx</code></li>
+<li><code>LeaveApprovalDialog.tsx</code></li>
+<li><code>LeaveCalendarView.tsx</code></li>
+<li><code>LeaveBalanceWidget.tsx</code></li>
+<li><code>HolidayManager.tsx</code></li>
+<li><code>LeavePolicyEditor.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/leave-requests</code></li>
+<li><code>PUT /api/leave-requests/:id/approve</code></li>
+<li><code>PUT /api/leave-requests/:id/reject</code></li>
+<li><code>POST /api/leave-requests/bulk-action</code></li>
+<li><code>GET /api/holidays</code></li>
+<li><code>POST /api/holidays</code></li>
+<li><code>GET /api/leave-requests/reports</code></li>
+
+<p><strong>Business Logic:</strong></p>
+<li>Check leave balance before approval</li>
+<li>Prevent negative balance (unless policy allows)</li>
+<li>Check for overlapping leave requests</li>
+<li>Auto-approve based on configurable rules</li>
+<li>Update leave balance on approval</li>
+
+<hr>
+
+<h4>1.6 Reimbursement Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>View all reimbursement claims</li>
+<li>Approve/Reject with comments</li>
+<li>View attached receipts (image viewer)</li>
+<li>Payment tracking</li>
+<li>Category-wise analysis</li>
+<li>Bulk payment processing</li>
+<li>Export reimbursement reports</li>
+<li>Set approval limits per role</li>
+<li>Payment method assignment</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ReimbursementQueue.tsx</code></li>
+<li><code>ReimbursementDetailView.tsx</code></li>
+<li><code>ReceiptViewer.tsx</code></li>
+<li><code>PaymentProcessingPanel.tsx</code></li>
+<li><code>ReimbursementReports.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/reimbursements</code></li>
+<li><code>PUT /api/reimbursements/:id/approve</code></li>
+<li><code>PUT /api/reimbursements/:id/reject</code></li>
+<li><code>PUT /api/reimbursements/:id/mark-paid</code></li>
+<li><code>POST /api/reimbursements/bulk-payment</code></li>
+<li><code>GET /api/reimbursements/reports</code></li>
+
+<p><strong>Validations:</strong></p>
+<li>Valid receipt file types (jpg, png, pdf)</li>
+<li>Maximum file size (5MB per receipt)</li>
+<li>Required fields for approval</li>
+<li>Amount reasonability checks</li>
+
+<hr>
+
+<h4>1.7 Client Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>Add/Edit client details</li>
+<li>Configure billing rates and currency</li>
+<li>Assign employees to clients</li>
+<li>View client billing history</li>
+<li>Generate client invoices</li>
+<li>Portal access management</li>
+<li>Contract tracking</li>
+<li>Client performance metrics</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ClientListTable.tsx</code></li>
+<li><code>ClientForm.tsx</code></li>
+<li><code>ClientBillingConfig.tsx</code></li>
+<li><code>EmployeeAssignmentPanel.tsx</code></li>
+<li><code>InvoiceGenerator.tsx</code></li>
+<li><code>ClientPortalAccess.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/clients</code></li>
+<li><code>POST /api/clients</code></li>
+<li><code>PUT /api/clients/:id</code></li>
+<li><code>GET /api/clients/:id/billing-history</code></li>
+<li><code>POST /api/clients/:id/generate-invoice</code></li>
+<li><code>PUT /api/clients/:id/portal-access</code></li>
+
+<hr>
+
+<h4>1.8 Timesheet & Payroll Module</h4>
+<p><strong>Features:</strong></p>
+<li>View employee timesheets (weekly/monthly)</li>
+<li>Add notes to timesheet entries</li>
+<li>Tag hours to specific clients</li>
+<li>Verify and approve timesheets</li>
+<li>Calculate overtime automatically</li>
+<li>Export internal payroll reports</li>
+<li>Export client billing reports</li>
+<li>Highlight missing/incomplete entries</li>
+<li>Bulk timesheet approval</li>
+<li>Payroll summary dashboard</li>
+
+<p><strong>Components:</strong></p>
+<li><code>TimesheetTable.tsx</code></li>
+<li><code>TimesheetVerificationPanel.tsx</code></li>
+<li><code>ClientTaggingInterface.tsx</code></li>
+<li><code>PayrollReportGenerator.tsx</code></li>
+<li><code>OvertimeCalculator.tsx</code></li>
+<li><code>MissingEntriesAlert.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/timesheets</code></li>
+<li><code>PUT /api/timesheets/:id/add-notes</code></li>
+<li><code>PUT /api/timesheets/:id/verify</code></li>
+<li><code>POST /api/timesheets/:id/approve</code></li>
+<li><code>GET /api/timesheets/export/internal</code></li>
+<li><code>GET /api/timesheets/export/client</code></li>
+
+<p><strong>Report Types:</strong></p>
+<li>Internal Payroll Report (with all details, notes, breaks)</li>
+<li>Client Billing Report (clean, billable hours only)</li>
+
+<hr>
+
+<h4>1.9 Announcements Module</h4>
+<p><strong>Features:</strong></p>
+<li>Create/Edit/Delete announcements</li>
+<li>Rich text editor support</li>
+<li>File attachments</li>
+<li>Target specific roles/departments/locations</li>
+<li>Schedule future announcements</li>
+<li>Set up recurring announcements</li>
+<li>Track views and acknowledgments</li>
+<li>Priority levels (Low, Medium, High, Urgent)</li>
+<li>Pin important announcements</li>
+
+<p><strong>Components:</strong></p>
+<li><code>AnnouncementComposer.tsx</code></li>
+<li><code>RichTextEditor.tsx</code></li>
+<li><code>TargetAudienceSelector.tsx</code></li>
+<li><code>AnnouncementScheduler.tsx</code></li>
+<li><code>EngagementTracker.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/announcements</code></li>
+<li><code>POST /api/announcements</code></li>
+<li><code>PUT /api/announcements/:id</code></li>
+<li><code>DELETE /api/announcements/:id</code></li>
+<li><code>GET /api/announcements/:id/engagement</code></li>
+
+<hr>
+
+<h4>1.10 Reports & Analytics Module</h4>
+<p><strong>Features:</strong></p>
+<li>Pre-built report templates</li>
+<li>Custom report builder</li>
+<li>Employee performance reports</li>
+<li>Attendance summary reports</li>
+<li>Leave utilization reports</li>
+<li>Reimbursement analysis</li>
+<li>Client billing reports</li>
+<li>Productivity metrics</li>
+<li>Export to Excel/PDF/CSV</li>
+<li>Scheduled report delivery</li>
+<li>Data visualization (charts, graphs)</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ReportDashboard.tsx</code></li>
+<li><code>ReportBuilder.tsx</code></li>
+<li><code>PerformanceReportView.tsx</code></li>
+<li><code>AttendanceAnalytics.tsx</code></li>
+<li><code>ExportOptionsDialog.tsx</code></li>
+<li><code>ScheduledReportsManager.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/reports/templates</code></li>
+<li><code>POST /api/reports/generate</code></li>
+<li><code>POST /api/reports/custom</code></li>
+<li><code>POST /api/reports/schedule</code></li>
+<li><code>GET /api/reports/:id/export</code></li>
+
+<p><strong>Report Categories:</strong></p>
+<li>Employee Performance</li>
+<li>Attendance & Punctuality</li>
+<li>Leave Trends</li>
+<li>Reimbursement Spending</li>
+<li>Client Billing & Revenue</li>
+<li>Department-wise Analysis</li>
+
+<hr>
+
+<h4>1.11 System Settings Module</h4>
+<p><strong>Features:</strong></p>
+<li>Attendance policy configuration</li>
+<li>Leave policy management</li>
+<li>Notification settings</li>
+<li>Security settings (IP whitelist, session timeout)</li>
+<li>Billing rate configuration</li>
+<li>Auto-approval rules</li>
+<li>Email templates customization</li>
+<li>Backup and restore</li>
+<li>Audit log viewer</li>
+
+<p><strong>Components:</strong></p>
+<li><code>SettingsPanel.tsx</code></li>
+<li><code>PolicyEditor.tsx</code></li>
+<li><code>NotificationPreferences.tsx</code></li>
+<li><code>SecurityConfiguration.tsx</code></li>
+<li><code>AuditLogViewer.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/settings</code></li>
+<li><code>PUT /api/settings/attendance-policy</code></li>
+<li><code>PUT /api/settings/leave-policy</code></li>
+<li><code>PUT /api/settings/notifications</code></li>
+<li><code>PUT /api/settings/security</code></li>
+<li><code>GET /api/audit-logs</code></li>
+
+<hr>
+
+<h3>Security Features</h3>
+<li>JWT-based authentication with refresh tokens</li>
+<li>Role-based access control (RBAC)</li>
+<li>IP whitelist verification</li>
+<li>Session timeout management</li>
+<li>Encrypted data transmission (HTTPS only)</li>
+<li>XSS and CSRF protection</li>
+<li>Audit logging for all actions</li>
+
+<h3>Performance Optimizations</h3>
+<li>Lazy loading of routes</li>
+<li>Virtual scrolling for large tables</li>
+<li>Debounced search inputs</li>
+<li>Cached API responses (React Query)</li>
+<li>Optimistic UI updates</li>
+<li>Progressive image loading</li>
+
+<h3>Responsive Design</h3>
+<li>Desktop-first approach (1920x1080 optimized)</li>
+<li>Tablet support (iPad landscape)</li>
+<li>Mobile fallback (redirects to mobile app)</li>
+
+<hr>
+
+<h2>2. Employee Web Portal (React.js)</h2>
+
+<h3>Purpose</h3>
+<p>Self-service portal for employees to manage their attendance, leaves, reimbursements, and view schedules.</p>
+
+<h3>Target Users</h3>
+<li>Regular Employees</li>
+<li>Contractors</li>
+
+<h3>Technology Stack</h3>
+<li><strong>Framework:</strong> React 18+ with TypeScript</li>
+<li><strong>State Management:</strong> Context API + React Query</li>
+<li><strong>UI Library:</strong> Chakra UI or Tailwind CSS</li>
+<li><strong>PWA Support:</strong> Workbox for offline capabilities</li>
+<li><strong>Build Tool:</strong> Vite</li>
+
+<h3>Core Features & Modules</h3>
+
+<h4>2.1 Employee Dashboard</h4>
+<p><strong>Features:</strong></p>
+<li>Today's schedule overview</li>
+<li>Clock-in/out status</li>
+<li>Leave balance summary</li>
+<li>Pending reimbursements</li>
+<li>Recent announcements</li>
+<li>Upcoming shifts reminder</li>
+<li>Personal performance snapshot</li>
+
+<p><strong>Components:</strong></p>
+<li><code>EmployeeDashboard.tsx</code></li>
+<li><code>TodayScheduleCard.tsx</code></li>
+<li><code>LeaveBalanceWidget.tsx</code></li>
+<li><code>QuickClockInButton.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/employee/dashboard</code></li>
+<li><code>GET /api/employee/today-schedule</code></li>
+<li><code>GET /api/employee/leave-balance</code></li>
+
+<hr>
+
+<h4>2.2 Attendance Module</h4>
+<p><strong>Features:</strong></p>
+<li>Clock-in button (from approved IPs only)</li>
+<li>Clock-out button</li>
+<li>Break start/end</li>
+<li>View attendance history</li>
+<li>Monthly attendance calendar</li>
+<li>Download attendance reports</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ClockInOutPanel.tsx</code></li>
+<li><code>BreakController.tsx</code></li>
+<li><code>AttendanceHistory.tsx</code></li>
+<li><code>AttendanceCalendar.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/attendance/clock-in</code></li>
+<li><code>POST /api/attendance/clock-out</code></li>
+<li><code>POST /api/attendance/break-start</code></li>
+<li><code>POST /api/attendance/break-end</code></li>
+<li><code>GET /api/attendance/my-history</code></li>
+
+<p><strong>Validations:</strong></p>
+<li>IP address verification</li>
+<li>Prevent duplicate clock-ins</li>
+<li>Enforce minimum break duration</li>
+<li>Clock-out must follow clock-in</li>
+
+<hr>
+
+<h4>2.3 Schedule Module</h4>
+<p><strong>Features:</strong></p>
+<li>View upcoming shifts (list/calendar view)</li>
+<li>Confirm shift attendance (Yes/No)</li>
+<li>View shift details (client, location, timing)</li>
+<li>Set availability preferences</li>
+<li>Receive shift reminders</li>
+
+<p><strong>Components:</strong></p>
+<li><code>MySchedule.tsx</code></li>
+<li><code>ShiftConfirmationDialog.tsx</code></li>
+<li><code>ScheduleCalendarView.tsx</code></li>
+<li><code>AvailabilitySettings.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/employee/schedule</code></li>
+<li><code>PUT /api/schedule/shifts/:id/confirm</code></li>
+<li><code>PUT /api/schedule/shifts/:id/decline</code></li>
+<li><code>PUT /api/employee/availability</code></li>
+
+<hr>
+
+<h4>2.4 Leave Management Module</h4>
+<p><strong>Features:</strong></p>
+<li>Submit leave requests</li>
+<li>View leave history</li>
+<li>Check leave balance</li>
+<li>Cancel pending requests</li>
+<li>View holiday calendar</li>
+<li>Upload medical certificates (for sick leave)</li>
+
+<p><strong>Components:</strong></p>
+<li><code>LeaveRequestForm.tsx</code></li>
+<li><code>LeaveHistoryTable.tsx</code></li>
+<li><code>LeaveBalanceCard.tsx</code></li>
+<li><code>HolidayCalendar.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/leave-requests</code></li>
+<li><code>GET /api/leave-requests/my-requests</code></li>
+<li><code>DELETE /api/leave-requests/:id</code></li>
+<li><code>GET /api/holidays</code></li>
+
+<p><strong>Validations:</strong></p>
+<li>Sufficient leave balance</li>
+<li>No overlapping leave requests</li>
+<li>Minimum notice period check</li>
+<li>Valid date range</li>
+
+<hr>
+
+<h4>2.5 Reimbursement Module</h4>
+<p><strong>Features:</strong></p>
+<li>Submit expense claims</li>
+<li>Upload receipts (multiple images)</li>
+<li>Track reimbursement status</li>
+<li>View payment history</li>
+<li>Download reimbursement reports</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ReimbursementForm.tsx</code></li>
+<li><code>ReceiptUploader.tsx</code></li>
+<li><code>ReimbursementStatusTracker.tsx</code></li>
+<li><code>PaymentHistory.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/reimbursements</code></li>
+<li><code>GET /api/reimbursements/my-claims</code></li>
+<li><code>GET /api/reimbursements/:id/status</code></li>
+
+<p><strong>Validations:</strong></p>
+<li>Valid expense category</li>
+<li>Receipt file size and format</li>
+<li>Amount reasonability</li>
+<li>Required description</li>
+
+<hr>
+
+<h4>2.6 Announcements Module</h4>
+<p><strong>Features:</strong></p>
+<li>View company announcements</li>
+<li>Mark announcements as read</li>
+<li>Acknowledge important notices</li>
+<li>Filter by category</li>
+<li>Search announcements</li>
+
+<p><strong>Components:</strong></p>
+<li><code>AnnouncementFeed.tsx</code></li>
+<li><code>AnnouncementCard.tsx</code></li>
+<li><code>AcknowledgmentDialog.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/announcements/my-feed</code></li>
+<li><code>PUT /api/announcements/:id/mark-read</code></li>
+<li><code>PUT /api/announcements/:id/acknowledge</code></li>
+
+<hr>
+
+<h4>2.7 Profile Module</h4>
+<p><strong>Features:</strong></p>
+<li>View personal information</li>
+<li>Update contact details</li>
+<li>Change password</li>
+<li>View employment details</li>
+<li>Upload profile picture</li>
+<li>View performance history</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ProfileView.tsx</code></li>
+<li><code>ProfileEditForm.tsx</code></li>
+<li><code>PasswordChangeDialog.tsx</code></li>
+<li><code>PerformanceSummary.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/employee/profile</code></li>
+<li><code>PUT /api/employee/profile</code></li>
+<li><code>PUT /api/employee/change-password</code></li>
+<li><code>POST /api/employee/profile-picture</code></li>
+
+<hr>
+
+<h3>PWA Features</h3>
+<li>Offline access to schedule</li>
+<li>Background sync for pending actions</li>
+<li>Push notifications for shift reminders</li>
+<li>Add to home screen capability</li>
+
+<hr>
+
+<h2>3. Client Portal (React.js)</h2>
+
+<h3>Purpose</h3>
+<p>Limited read-only portal for clients to view reports, billing, and employee assignments.</p>
+
+<h3>Target Users</h3>
+<li>Client Representatives</li>
+<li>Client Managers</li>
+
+<h3>Technology Stack</h3>
+<li><strong>Framework:</strong> React 18+</li>
+<li><strong>State Management:</strong> React Query</li>
+<li><strong>UI Library:</strong> Minimal custom UI (branded)</li>
+<li><strong>Build Tool:</strong> Vite</li>
+
+<h3>Core Features & Modules</h3>
+
+<h4>3.1 Client Dashboard</h4>
+<p><strong>Features:</strong></p>
+<li>Current assignments overview</li>
+<li>This month's hours summary</li>
+<li>Recent invoices</li>
+<li>Employee roster</li>
+<li>Support contact</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ClientDashboard.tsx</code></li>
+<li><code>AssignmentsSummary.tsx</code></li>
+<li><code>BillingSummary.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/client/dashboard</code></li>
+<li><code>GET /api/client/current-assignments</code></li>
+
+<hr>
+
+<h4>3.2 Reports Module</h4>
+<p><strong>Features:</strong></p>
+<li>View monthly reports</li>
+<li>Download billing reports (clean version)</li>
+<li>View employee hours breakdown</li>
+<li>Invoice history</li>
+
+<p><strong>Components:</strong></p>
+<li><code>ClientReports.tsx</code></li>
+<li><code>BillingReportViewer.tsx</code></li>
+<li><code>InvoiceHistory.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/client/reports</code></li>
+<li><code>GET /api/client/invoices</code></li>
+<li><code>GET /api/client/reports/:id/download</code></li>
+
+<hr>
+
+<h4>3.3 Employee Roster</h4>
+<p><strong>Features:</strong></p>
+<li>View assigned employees</li>
+<li>See employee attendance summary</li>
+<li>Contact information (limited)</li>
+
+<p><strong>Components:</strong></p>
+<li><code>AssignedEmployees.tsx</code></li>
+<li><code>EmployeeCard.tsx</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/client/employees</code></li>
+<li><code>GET /api/client/employees/:id/summary</code></li>
+
+<hr>
+
+<h3>Security</h3>
+<li>Separate authentication system</li>
+<li>Read-only access</li>
+<li>No sensitive employee data visible</li>
+<li>IP whitelist optional</li>
+<li>Session tracking</li>
+
+<hr>
+
+<h2>4. Mobile App (Flutter)</h2>
+
+<h3>Purpose</h3>
+<p>Field access for employees to clock-in/out, check schedules, and receive notifications.</p>
+
+<h3>Target Platforms</h3>
+<li>iOS (13.0+)</li>
+<li>Android (API 21+)</li>
+
+<h3>Technology Stack</h3>
+<li><strong>Framework:</strong> Flutter 3.x</li>
+<li><strong>State Management:</strong> Riverpod</li>
+<li><strong>Local Database:</strong> Hive or SQLite</li>
+<li><strong>API Client:</strong> Dio with interceptors</li>
+<li><strong>Push Notifications:</strong> Firebase Cloud Messaging</li>
+<li><strong>Biometric Auth:</strong> local_auth package</li>
+
+<h3>Core Features & Modules</h3>
+
+<h4>4.1 Authentication</h4>
+<p><strong>Features:</strong></p>
+<li>Login with username/password</li>
+<li>Biometric login (fingerprint/face ID)</li>
+<li>Remember me option</li>
+<li>Forgot password flow</li>
+<li>Auto-logout on inactivity</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>LoginScreen</code></li>
+<li><code>BiometricPromptScreen</code></li>
+<li><code>ForgotPasswordScreen</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/auth/login</code></li>
+<li><code>POST /api/auth/forgot-password</code></li>
+<li><code>POST /api/auth/verify-otp</code></li>
+
+<hr>
+
+<h4>4.2 Home Dashboard</h4>
+<p><strong>Features:</strong></p>
+<li>Quick clock-in/out buttons</li>
+<li>Today's schedule</li>
+<li>Current shift timer</li>
+<li>Leave balance</li>
+<li>Notifications badge</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>HomeScreen</code></li>
+<li><code>QuickActionsBottomSheet</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/employee/dashboard</code></li>
+<li><code>GET /api/employee/today-schedule</code></li>
+
+<hr>
+
+<h4>4.3 Attendance Module</h4>
+<p><strong>Features:</strong></p>
+<li>Clock-in with location tracking</li>
+<li>Clock-out</li>
+<li>Break management</li>
+<li>View attendance history</li>
+<li>Offline mode support (syncs when online)</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>AttendanceScreen</code></li>
+<li><code>ClockInConfirmation</code></li>
+<li><code>BreakScreen</code></li>
+<li><code>AttendanceHistory</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/attendance/clock-in</code></li>
+<li><code>POST /api/attendance/clock-out</code></li>
+<li><code>POST /api/attendance/break-start</code></li>
+<li><code>POST /api/attendance/break-end</code></li>
+
+<p><strong>Features:</strong></p>
+<li>GPS location capture</li>
+<li>IP detection</li>
+<li>Camera support (future: face verification)</li>
+<li>Offline queue for pending clock-ins</li>
+
+<hr>
+
+<h4>4.4 Schedule Module</h4>
+<p><strong>Features:</strong></p>
+<li>View upcoming shifts</li>
+<li>Calendar view</li>
+<li>Confirm/decline shifts</li>
+<li>Set availability</li>
+<li>Shift notifications</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>ScheduleListScreen</code></li>
+<li><code>ScheduleCalendarScreen</code></li>
+<li><code>ShiftDetailScreen</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/employee/schedule</code></li>
+<li><code>PUT /api/schedule/shifts/:id/confirm</code></li>
+
+<hr>
+
+<h4>4.5 Leave Module</h4>
+<p><strong>Features:</strong></p>
+<li>Apply for leave</li>
+<li>Upload documents (camera/gallery)</li>
+<li>View leave history</li>
+<li>Check leave balance</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>LeaveRequestScreen</code></li>
+<li><code>LeaveHistoryScreen</code></li>
+<li><code>LeaveBalanceScreen</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/leave-requests</code></li>
+<li><code>GET /api/leave-requests/my-requests</code></li>
+<li><code>GET /api/employee/leave-balance</code></li>
+
+<hr>
+
+<h4>4.6 Reimbursement Module</h4>
+<p><strong>Features:</strong></p>
+<li>Submit expense claims</li>
+<li>Capture receipts using camera</li>
+<li>Track claim status</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>ReimbursementFormScreen</code></li>
+<li><code>ReceiptCaptureScreen</code></li>
+<li><code>ReimbursementListScreen</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>POST /api/reimbursements</code></li>
+<li><code>GET /api/reimbursements/my-claims</code></li>
+
+<hr>
+
+<h4>4.7 Notifications</h4>
+<p><strong>Features:</strong></p>
+<li>Push notifications for shift reminders</li>
+<li>Leave approval/rejection alerts</li>
+<li>Announcement notifications</li>
+<li>In-app notification center</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>NotificationCenterScreen</code></li>
+<li><code>NotificationDetailScreen</code></li>
+
+<p><strong>API Endpoints Used:</strong></p>
+<li><code>GET /api/notifications</code></li>
+<li><code>PUT /api/notifications/:id/read</code></li>
+
+<hr>
+
+<h4>4.8 Profile</h4>
+<p><strong>Features:</strong></p>
+<li>View profile</li>
+<li>Edit contact details</li>
+<li>Change password</li>
+<li>App settings</li>
+<li>Logout</li>
+
+<p><strong>Screens:</strong></p>
+<li><code>ProfileScreen</code></li>
+<li><code>EditProfileScreen</code></li>
+<li><code>SettingsScreen</code></li>
+
+<hr>
+
+<h3>Mobile-Specific Features</h3>
+<li>Offline mode with local caching</li>
+<li>Background location tracking (for field employees)</li>
+<li>Biometric authentication</li>
+<li>Camera integration</li>
+<li>Push notifications</li>
+<li>App shortcuts</li>
+<li>Dark mode support</li>
+
+<hr>
+
+<h2>5. Backend API Services (Node.js + Express)</h2>
+
+<h3>Architecture: Microservices (Optional Monolith for Phase 1)</h3>
+
+<p>For Phase 1, we can start with a <strong>modular monolith</strong> and later separate into microservices.</p>
+
+<hr>
+
+<h3>5.1 API Gateway (`/api`)</h3>
+<p><strong>Port:</strong> 5000  </p>
+<p><strong>Purpose:</strong> Central entry point, routing, authentication, rate limiting</p>
+
+<p><strong>Responsibilities:</strong></p>
+<li>Route requests to appropriate services</li>
+<li>JWT validation</li>
+<li>Rate limiting</li>
+<li>Request logging</li>
+<li>Error handling middleware</li>
+<li>CORS configuration</li>
+
+<p><strong>Technology:</strong></p>
+<li>Express.js</li>
+<li>express-rate-limit</li>
+<li>helmet (security)</li>
+<li>morgan (logging)</li>
+<li>compression</li>
+
+<hr>
+
+<h3>5.2 Authentication Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>POST /api/auth/login</code></li>
+<li><code>POST /api/auth/logout</code></li>
+<li><code>POST /api/auth/refresh-token</code></li>
+<li><code>POST /api/auth/forgot-password</code></li>
+<li><code>POST /api/auth/reset-password</code></li>
+<li><code>POST /api/auth/verify-otp</code></li>
+<li><code>POST /api/auth/change-password</code></li>
+
+<p><strong>Features:</strong></p>
+<li>JWT token generation (access + refresh)</li>
+<li>Password hashing (bcrypt)</li>
+<li>Role-based permissions</li>
+<li>IP whitelist verification</li>
+<li>Session management (Redis)</li>
+<li>Failed login tracking</li>
+<li>Password policy enforcement</li>
+
+<hr>
+
+<h3>5.3 User Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/users</code></li>
+<li><code>GET /api/users/:id</code></li>
+<li><code>POST /api/users</code></li>
+<li><code>PUT /api/users/:id</code></li>
+<li><code>DELETE /api/users/:id</code> (soft delete)</li>
+<li><code>POST /api/users/bulk-import</code></li>
+<li><code>PUT /api/users/:id/permissions</code></li>
+<li><code>GET /api/users/:id/performance</code></li>
+
+<p><strong>Features:</strong></p>
+<li>CRUD operations</li>
+<li>Role management</li>
+<li>Leave balance initialization</li>
+<li>Employee hierarchy</li>
+<li>Bulk operations</li>
+
+<hr>
+
+<h3>5.4 Schedule Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/schedules</code></li>
+<li><code>POST /api/schedules</code></li>
+<li><code>PUT /api/schedules/:id</code></li>
+<li><code>POST /api/schedules/:id/publish</code></li>
+<li><code>GET /api/schedules/:id/confirmations</code></li>
+<li><code>PUT /api/schedule/shifts/:id/confirm</code></li>
+<li><code>PUT /api/schedule/shifts/:id/decline</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Schedule creation and management</li>
+<li>Conflict detection</li>
+<li>Auto-reminders (cron job)</li>
+<li>Confirmation tracking</li>
+
+<hr>
+
+<h3>5.5 Attendance Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>POST /api/attendance/clock-in</code></li>
+<li><code>POST /api/attendance/clock-out</code></li>
+<li><code>POST /api/attendance/break-start</code></li>
+<li><code>POST /api/attendance/break-end</code></li>
+<li><code>GET /api/attendance</code></li>
+<li><code>GET /api/attendance/today</code></li>
+<li><code>POST /api/attendance/manual-entry</code></li>
+<li><code>PUT /api/attendance/:id/correct</code></li>
+<li><code>GET /api/attendance/alerts</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Real-time attendance tracking</li>
+<li>IP verification</li>
+<li>Late arrival detection</li>
+<li>Overtime calculation</li>
+<li>Break management</li>
+<li>Alert generation</li>
+
+<hr>
+
+<h3>5.6 Leave Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>POST /api/leave-requests</code></li>
+<li><code>GET /api/leave-requests</code></li>
+<li><code>PUT /api/leave-requests/:id/approve</code></li>
+<li><code>PUT /api/leave-requests/:id/reject</code></li>
+<li><code>DELETE /api/leave-requests/:id</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Leave balance validation</li>
+<li>Auto-approval logic</li>
+<li>Notification triggers</li>
+<li>Holiday calendar integration</li>
+
+<hr>
+
+<h3>5.7 Reimbursement Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>POST /api/reimbursements</code></li>
+<li><code>GET /api/reimbursements</code></li>
+<li><code>PUT /api/reimbursements/:id/approve</code></li>
+<li><code>PUT /api/reimbursements/:id/reject</code></li>
+<li><code>PUT /api/reimbursements/:id/mark-paid</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Receipt upload to S3</li>
+<li>Approval workflow</li>
+<li>Payment tracking</li>
+
+<hr>
+
+<h3>5.8 Client Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/clients</code></li>
+<li><code>POST /api/clients</code></li>
+<li><code>PUT /api/clients/:id</code></li>
+<li><code>GET /api/clients/:id/billing-history</code></li>
+<li><code>POST /api/clients/:id/generate-invoice</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Client management</li>
+<li>Billing rate configuration</li>
+<li>Invoice generation</li>
+
+<hr>
+
+<h3>5.9 Timesheet Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/timesheets</code></li>
+<li><code>PUT /api/timesheets/:id/verify</code></li>
+<li><code>POST /api/timesheets/:id/approve</code></li>
+<li><code>GET /api/timesheets/export/internal</code></li>
+<li><code>GET /api/timesheets/export/client</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Aggregation from attendance data</li>
+<li>Client tagging</li>
+<li>Report generation (Excel/PDF)</li>
+
+<hr>
+
+<h3>5.10 Notification Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>POST /api/notifications/send</code></li>
+<li><code>GET /api/notifications</code></li>
+<li><code>PUT /api/notifications/:id/read</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Email sending (SendGrid/AWS SES)</li>
+<li>Push notifications (Firebase)</li>
+<li>In-app notifications</li>
+<li>Scheduled notifications (cron)</li>
+
+<hr>
+
+<h3>5.11 Report Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/reports/templates</code></li>
+<li><code>POST /api/reports/generate</code></li>
+<li><code>POST /api/reports/custom</code></li>
+<li><code>GET /api/reports/:id/export</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Pre-built report templates</li>
+<li>Custom report builder</li>
+<li>Export to Excel/PDF/CSV (ExcelJS, PDFKit)</li>
+<li>Scheduled reports</li>
+
+<hr>
+
+<h3>5.12 Announcement Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/announcements</code></li>
+<li><code>POST /api/announcements</code></li>
+<li><code>PUT /api/announcements/:id</code></li>
+<li><code>DELETE /api/announcements/:id</code></li>
+<li><code>PUT /api/announcements/:id/mark-read</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Rich content support</li>
+<li>Target audience filtering</li>
+<li>Scheduling</li>
+<li>Engagement tracking</li>
+
+<hr>
+
+<h3>5.13 Audit Log Service</h3>
+<p><strong>Endpoints:</strong></p>
+<li><code>GET /api/audit-logs</code></li>
+<li><code>GET /api/audit-logs/:userId</code></li>
+
+<p><strong>Features:</strong></p>
+<li>Log all system actions</li>
+<li>User activity tracking</li>
+<li>Search and filter</li>
+<li>Auto-cleanup (TTL)</li>
+
+<hr>
+
+<h2>Technology Stack Summary</h2>
+
+<h3>Frontend</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Application</th>
+            <th>Framework</th>
+            <th>State Management</th>
+            <th>UI Library</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Admin Dashboard</td>
+            <td>React 18 + TS</td>
+            <td>Redux Toolkit</td>
+            <td>Material-UI</td>
+        </tr>
+        <tr>
+            <td>Employee Portal</td>
+            <td>React 18 + TS</td>
+            <td>Context + React Query</td>
+            <td>Chakra UI</td>
+        </tr>
+        <tr>
+            <td>Client Portal</td>
+            <td>React 18</td>
+            <td>React Query</td>
+            <td>Custom</td>
+        </tr>
+        <tr>
+            <td>Mobile App</td>
+            <td>Flutter 3.x</td>
+            <td>Riverpod</td>
+            <td>Material/Cupertino</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Backend</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Component</th>
+            <th>Technology</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>API Server</td>
+            <td>Node.js + Express</td>
+        </tr>
+        <tr>
+            <td>Database</td>
+            <td>MongoDB 6.x</td>
+        </tr>
+        <tr>
+            <td>Cache</td>
+            <td>Redis 7.x</td>
+        </tr>
+        <tr>
+            <td>File Storage</td>
+            <td>AWS S3 / Cloudinary</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>SendGrid / AWS SES</td>
+        </tr>
+        <tr>
+            <td>Push Notifications</td>
+            <td>Firebase Cloud Messaging</td>
+        </tr>
+        <tr>
+            <td>Payment Gateway</td>
+            <td>Stripe / Razorpay</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>DevOps</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Tool</th>
+            <th>Purpose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Docker</td>
+            <td>Containerization</td>
+        </tr>
+        <tr>
+            <td>Docker Compose</td>
+            <td>Local development</td>
+        </tr>
+        <tr>
+            <td>Nginx</td>
+            <td>Reverse proxy</td>
+        </tr>
+        <tr>
+            <td>PM2</td>
+            <td>Process management</td>
+        </tr>
+        <tr>
+            <td>GitHub Actions</td>
+            <td>CI/CD</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h2>Scalability Considerations</h2>
+
+<h3>Database</h3>
+<li>Implement database indexes (already defined)</li>
+<li>Use MongoDB replica sets for high availability</li>
+<li>Implement sharding if data grows beyond 1TB</li>
+<li>Redis caching for frequently accessed data</li>
+
+<h3>API</h3>
+<li>Horizontal scaling with load balancer</li>
+<li>Stateless API design</li>
+<li>Connection pooling</li>
+<li>Rate limiting per user/IP</li>
+
+<h3>File Storage</h3>
+<li>CDN for static assets</li>
+<li>Image optimization and compression</li>
+<li>Lazy loading</li>
+
+<h3>Future Phases Preparation</h3>
+<li>Module-based architecture allows easy addition</li>
+<li>Standardized API patterns</li>
+<li>Reusable components</li>
+<li>Feature flags for gradual rollout</li>
+
+<hr>
+
+
+            </section>
+
+            <section id="section-api" class="section">
+                <h1>Pulse Ops - Complete API Specification</h1>
+
+<h2>API Overview</h2>
+
+<p><strong>Base URL:</strong> <code>https://api.pulseops.com/v1</code>  </p>
+<p><strong>Protocol:</strong> HTTPS only  </p>
+<p><strong>Authentication:</strong> JWT Bearer Token  </p>
+<p><strong>Content-Type:</strong> <code>application/json</code>  </p>
+<p><strong>Rate Limiting:</strong> 100 requests per minute per user</p>
+
+<hr>
+
+<h2>Authentication Flow</h2>
+
+<div class="diagram-container"><div class="diagram-title">Figure 4</div><div class="mermaid">
+sequenceDiagram
+    participant Client
+    participant API Gateway
+    participant Auth Service
+    participant Redis
+    participant MongoDB
+    
+    Client->>API Gateway: POST /auth/login
+    API Gateway->>Auth Service: Validate credentials
+    Auth Service->>MongoDB: Query user
+    MongoDB-->>Auth Service: User data
+    Auth Service->>Auth Service: Verify password
+    Auth Service->>Redis: Store session
+    Auth Service->>Auth Service: Generate JWT tokens
+    Auth Service-->>API Gateway: Access + Refresh tokens
+    API Gateway-->>Client: Tokens + User data
+    
+    Note over Client,Redis: Subsequent requests
+    
+    Client->>API Gateway: GET /resource (with access token)
+    API Gateway->>API Gateway: Verify JWT
+    API Gateway->>Redis: Check session
+    Redis-->>API Gateway: Session valid
+    API Gateway->>Service: Forward request
+    Service-->>API Gateway: Response
+    API Gateway-->>Client: Response
+</div></div>
+<hr>
+
+<h2>Authentication Endpoints</h2>
+
+<h3>1. Login</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/auth/login</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "username": "john.doe",
+  "password": "SecurePassword123!",
+  "ipAddress": "192.168.1.10"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "user": {
+      "id": "507f1f77bcf86cd799439011",
+      "employeeId": "EMP001",
+      "username": "john.doe",
+      "email": "john.doe@company.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "employee",
+      "department": "Operations",
+      "permissions": {
+        "modules": ["attendance", "leave", "reimbursement"],
+        "canApproveLeave": false
+      },
+      "profilePicture": "https://cdn.pulseops.com/profiles/john.jpg"
+    },
+    "tokens": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "expiresIn": 3600
+    }
+  }
+}
+</code></pre>
+
+<p><strong>Error Responses:</strong></p>
+<pre><code>
+// 401 - Invalid credentials
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Username or password is incorrect"
+  }
+}
+
+// 403 - Account inactive
+{
+  "success": false,
+  "error": {
+    "code": "ACCOUNT_INACTIVE",
+    "message": "Your account has been deactivated. Contact HR."
+  }
+}
+
+// 403 - IP not whitelisted
+{
+  "success": false,
+  "error": {
+    "code": "IP_NOT_ALLOWED",
+    "message": "Access denied from this IP address"
+  }
+}
+
+// 429 - Too many attempts
+{
+  "success": false,
+  "error": {
+    "code": "TOO_MANY_ATTEMPTS",
+    "message": "Too many failed login attempts. Try again in 15 minutes."
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>2. Refresh Token</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/auth/refresh-token</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": 3600
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>3. Logout</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/auth/logout</code></p>
+
+<p><strong>Headers:</strong></p>
+<pre><code>
+Authorization: Bearer {accessToken}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Logged out successfully"
+}
+</code></pre>
+
+<hr>
+
+<h3>4. Forgot Password</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/auth/forgot-password</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "email": "john.doe@company.com"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "OTP sent to your email",
+  "data": {
+    "resetTokenId": "rt_1234567890",
+    "expiresIn": 600
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>5. Reset Password</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/auth/reset-password</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "resetTokenId": "rt_1234567890",
+  "otp": "123456",
+  "newPassword": "NewSecurePassword123!"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Password reset successfully"
+}
+</code></pre>
+
+<hr>
+
+<h2>User Management Endpoints</h2>
+
+<h3>6. Get All Users</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/users</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?page=1
+&amp;limit=20
+&amp;role=employee
+&amp;department=Operations
+&amp;isActive=true
+&amp;search=john
+&amp;sortBy=firstName
+&amp;order=asc
+</code></pre>
+
+<p><strong>Headers:</strong></p>
+<pre><code>
+Authorization: Bearer {accessToken}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "users": [
+      {
+        "id": "507f1f77bcf86cd799439011",
+        "employeeId": "EMP001",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@company.com",
+        "phone": "+91-9876543210",
+        "role": "employee",
+        "department": "Operations",
+        "designation": "Operations Executive",
+        "dateOfJoining": "2023-01-15T00:00:00.000Z",
+        "isActive": true,
+        "profilePicture": "https://cdn.pulseops.com/profiles/john.jpg",
+        "reportingManager": {
+          "id": "507f1f77bcf86cd799439012",
+          "name": "Jane Smith"
+        }
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 5,
+      "totalRecords": 87,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>7. Get User by ID</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/users/:id</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "507f1f77bcf86cd799439011",
+      "employeeId": "EMP001",
+      "username": "john.doe",
+      "personalInfo": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@company.com",
+        "phone": "+91-9876543210",
+        "dateOfBirth": "1990-05-15T00:00:00.000Z",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India",
+          "zipCode": "400001"
+        },
+        "emergencyContact": {
+          "name": "Jane Doe",
+          "relationship": "Spouse",
+          "phone": "+91-9876543211"
+        }
+      },
+      "employment": {
+        "role": "employee",
+        "department": "Operations",
+        "designation": "Operations Executive",
+        "dateOfJoining": "2023-01-15T00:00:00.000Z",
+        "employmentType": "full-time",
+        "reportingManager": {
+          "id": "507f1f77bcf86cd799439012",
+          "name": "Jane Smith"
+        },
+        "location": "Mumbai Office",
+        "workingHours": {
+          "startTime": "09:00",
+          "endTime": "18:00",
+          "weeklyOff": ["Saturday", "Sunday"]
+        }
+      },
+      "permissions": {
+        "modules": ["attendance", "leave", "reimbursement"],
+        "canApproveLeave": false,
+        "canApproveReimbursement": false,
+        "canManageSchedule": false,
+        "canViewReports": false
+      },
+      "allowedIPs": ["192.168.1.10", "192.168.1.11"],
+      "leaveBalance": {
+        "casual": 10,
+        "sick": 7,
+        "earned": 15,
+        "compOff": 2
+      },
+      "isActive": true,
+      "lastLogin": "2024-11-07T10:30:00.000Z",
+      "createdAt": "2023-01-10T00:00:00.000Z",
+      "updatedAt": "2024-11-07T10:30:00.000Z"
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>8. Create User</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/users</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "employeeId": "EMP100",
+  "username": "jane.smith",
+  "password": "SecurePassword123!",
+  "personalInfo": {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@company.com",
+    "phone": "+91-9876543220",
+    "dateOfBirth": "1992-03-20",
+    "address": {
+      "street": "456 Park Avenue",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "zipCode": "400002"
+    }
+  },
+  "employment": {
+    "role": "employee",
+    "department": "Operations",
+    "designation": "Senior Executive",
+    "dateOfJoining": "2024-01-01",
+    "employmentType": "full-time",
+    "reportingManagerId": "507f1f77bcf86cd799439012",
+    "location": "Mumbai Office",
+    "workingHours": {
+      "startTime": "09:00",
+      "endTime": "18:00",
+      "weeklyOff": ["Saturday", "Sunday"]
+    }
+  },
+  "allowedIPs": ["192.168.1.20"],
+  "leaveBalance": {
+    "casual": 12,
+    "sick": 7,
+    "earned": 15,
+    "compOff": 0
+  }
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "User created successfully",
+  "data": {
+    "userId": "507f1f77bcf86cd799439020",
+    "employeeId": "EMP100",
+    "username": "jane.smith"
+  }
+}
+</code></pre>
+
+<p><strong>Error Response (400):</strong></p>
+<pre><code>
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Validation failed",
+    "details": [
+      {
+        "field": "personalInfo.email",
+        "message": "Email already exists"
+      }
+    ]
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>9. Update User</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/users/:id</code></p>
+
+<p><strong>Request Body:</strong> (Same structure as Create User, all fields optional)</p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "User updated successfully",
+  "data": {
+    "userId": "507f1f77bcf86cd799439011"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>10. Deactivate User (Soft Delete)</h3>
+<p><strong>Endpoint:</strong> <code>DELETE /api/users/:id</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "User deactivated successfully"
+}
+</code></pre>
+
+<hr>
+
+<h3>11. Bulk Import Users</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/users/bulk-import</code></p>
+
+<p><strong>Request Body:</strong> (multipart/form-data)</p>
+<pre><code>
+file: users.csv (CSV file with user data)
+</code></pre>
+
+<p><strong>CSV Format:</strong></p>
+<pre><code>
+employeeId,firstName,lastName,email,phone,role,department,designation,dateOfJoining
+EMP101,Alice,Johnson,alice@company.com,9876543230,employee,HR,HR Executive,2024-02-01
+EMP102,Bob,Williams,bob@company.com,9876543231,employee,Operations,Operations Manager,2024-02-15
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Bulk import completed",
+  "data": {
+    "totalRecords": 50,
+    "successfulImports": 48,
+    "failedImports": 2,
+    "errors": [
+      {
+        "row": 15,
+        "employeeId": "EMP115",
+        "error": "Email already exists"
+      },
+      {
+        "row": 32,
+        "employeeId": "EMP132",
+        "error": "Invalid phone number format"
+      }
+    ]
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Schedule Management Endpoints</h2>
+
+<h3>12. Get Schedules</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/schedules</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?startDate=2024-11-01
+&amp;endDate=2024-11-30
+&amp;employeeId=507f1f77bcf86cd799439011
+&amp;clientId=507f1f77bcf86cd799439030
+&amp;isPublished=true
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "schedules": [
+      {
+        "id": "507f1f77bcf86cd799439040",
+        "scheduleType": "weekly",
+        "startDate": "2024-11-04T00:00:00.000Z",
+        "endDate": "2024-11-10T00:00:00.000Z",
+        "isPublished": true,
+        "publishedBy": {
+          "id": "507f1f77bcf86cd799439012",
+          "name": "Jane Smith"
+        },
+        "publishedAt": "2024-11-01T15:00:00.000Z",
+        "shiftsCount": 35,
+        "confirmedCount": 30,
+        "declinedCount": 2,
+        "pendingCount": 3
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 3,
+      "totalRecords": 12,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>13. Get Schedule Details</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/schedules/:id</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "schedule": {
+      "id": "507f1f77bcf86cd799439040",
+      "scheduleType": "weekly",
+      "startDate": "2024-11-04T00:00:00.000Z",
+      "endDate": "2024-11-10T00:00:00.000Z",
+      "isPublished": true,
+      "shifts": [
+        {
+          "id": "shift_001",
+          "employee": {
+            "id": "507f1f77bcf86cd799439011",
+            "employeeId": "EMP001",
+            "name": "John Doe"
+          },
+          "client": {
+            "id": "507f1f77bcf86cd799439030",
+            "clientCode": "CLT001",
+            "companyName": "ABC Corporation"
+          },
+          "shiftDate": "2024-11-04T00:00:00.000Z",
+          "startTime": "09:00",
+          "endTime": "18:00",
+          "breakDuration": 60,
+          "location": "Client Office - Downtown",
+          "notes": "Morning shift",
+          "confirmationStatus": "confirmed",
+          "confirmationTime": "2024-11-03T10:00:00.000Z",
+          "reminderSent": true,
+          "reminderSentAt": "2024-11-04T08:00:00.000Z"
+        }
+      ],
+      "publishedBy": {
+        "id": "507f1f77bcf86cd799439012",
+        "name": "Jane Smith"
+      },
+      "publishedAt": "2024-11-01T15:00:00.000Z"
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>14. Create Schedule</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/schedules</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "scheduleType": "weekly",
+  "startDate": "2024-11-11",
+  "endDate": "2024-11-17",
+  "shifts": [
+    {
+      "employeeId": "507f1f77bcf86cd799439011",
+      "clientId": "507f1f77bcf86cd799439030",
+      "shiftDate": "2024-11-11",
+      "startTime": "09:00",
+      "endTime": "18:00",
+      "breakDuration": 60,
+      "location": "Client Office",
+      "notes": "Regular shift"
+    },
+    {
+      "employeeId": "507f1f77bcf86cd799439011",
+      "clientId": "507f1f77bcf86cd799439030",
+      "shiftDate": "2024-11-12",
+      "startTime": "09:00",
+      "endTime": "18:00",
+      "breakDuration": 60,
+      "location": "Client Office",
+      "notes": ""
+    }
+  ]
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Schedule created successfully",
+  "data": {
+    "scheduleId": "507f1f77bcf86cd799439041",
+    "shiftsCreated": 2,
+    "conflicts": []
+  }
+}
+</code></pre>
+
+<p><strong>Warning Response (201 with conflicts):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Schedule created with warnings",
+  "data": {
+    "scheduleId": "507f1f77bcf86cd799439041",
+    "shiftsCreated": 2,
+    "conflicts": [
+      {
+        "employeeId": "507f1f77bcf86cd799439011",
+        "shiftDate": "2024-11-12",
+        "conflictType": "leave_approved",
+        "message": "Employee has approved leave on this date"
+      }
+    ]
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>15. Publish Schedule</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/schedules/:id/publish</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Schedule published successfully",
+  "data": {
+    "scheduleId": "507f1f77bcf86cd799439040",
+    "notificationsSent": 35,
+    "publishedAt": "2024-11-07T12:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>16. Confirm/Decline Shift</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/schedule/shifts/:shiftId/confirm</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "action": "confirm"  // or "decline"
+  "declineReason": "Sick"  // required if action is "decline"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Shift confirmation updated",
+  "data": {
+    "shiftId": "shift_001",
+    "confirmationStatus": "confirmed",
+    "updatedAt": "2024-11-07T12:30:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Attendance Endpoints</h2>
+
+<h3>17. Clock In</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/attendance/clock-in</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "employeeId": "507f1f77bcf86cd799439011",
+  "ipAddress": "192.168.1.10",
+  "location": {
+    "latitude": 19.0760,
+    "longitude": 72.8777
+  },
+  "deviceInfo": "iPhone 14 Pro - iOS 17.0"
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Clocked in successfully",
+  "data": {
+    "attendanceId": "507f1f77bcf86cd799439050",
+    "clockInTime": "2024-11-07T09:05:00.000Z",
+    "status": "late",
+    "lateMinutes": 5,
+    "scheduledStartTime": "09:00"
+  }
+}
+</code></pre>
+
+<p><strong>Error Response (403):</strong></p>
+<pre><code>
+{
+  "success": false,
+  "error": {
+    "code": "IP_NOT_WHITELISTED",
+    "message": "Clock-in not allowed from this IP address"
+  }
+}
+</code></pre>
+
+<p><strong>Error Response (400):</strong></p>
+<pre><code>
+{
+  "success": false,
+  "error": {
+    "code": "ALREADY_CLOCKED_IN",
+    "message": "You have already clocked in today at 09:05 AM"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>18. Clock Out</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/attendance/clock-out</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "attendanceId": "507f1f77bcf86cd799439050",
+  "ipAddress": "192.168.1.10",
+  "location": {
+    "latitude": 19.0760,
+    "longitude": 72.8777
+  }
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Clocked out successfully",
+  "data": {
+    "attendanceId": "507f1f77bcf86cd799439050",
+    "clockOutTime": "2024-11-07T18:00:00.000Z",
+    "totalWorkHours": 8.5,
+    "netWorkHours": 7.5,
+    "totalBreakHours": 1.0,
+    "overtimeHours": 0
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>19. Start Break</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/attendance/break-start</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "attendanceId": "507f1f77bcf86cd799439050",
+  "breakType": "lunch"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Break started",
+  "data": {
+    "breakId": "break_001",
+    "breakStartTime": "2024-11-07T13:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>20. End Break</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/attendance/break-end</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "attendanceId": "507f1f77bcf86cd799439050",
+  "breakId": "break_001"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Break ended",
+  "data": {
+    "breakId": "break_001",
+    "breakEndTime": "2024-11-07T14:00:00.000Z",
+    "breakDuration": 60
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>21. Get Attendance Records</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/attendance</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?employeeId=507f1f77bcf86cd799439011
+&amp;startDate=2024-11-01
+&amp;endDate=2024-11-07
+&amp;attendanceStatus=present,late
+&amp;clientId=507f1f77bcf86cd799439030
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "attendance": [
+      {
+        "id": "507f1f77bcf86cd799439050",
+        "employee": {
+          "id": "507f1f77bcf86cd799439011",
+          "employeeId": "EMP001",
+          "name": "John Doe"
+        },
+        "date": "2024-11-07T00:00:00.000Z",
+        "clockIn": {
+          "time": "2024-11-07T09:05:00.000Z",
+          "ipAddress": "192.168.1.10"
+        },
+        "clockOut": {
+          "time": "2024-11-07T18:00:00.000Z",
+          "ipAddress": "192.168.1.10"
+        },
+        "breaks": [
+          {
+            "breakStart": "2024-11-07T13:00:00.000Z",
+            "breakEnd": "2024-11-07T14:00:00.000Z",
+            "breakType": "lunch",
+            "duration": 60
+          }
+        ],
+        "totalWorkHours": 8.5,
+        "totalBreakHours": 1.0,
+        "netWorkHours": 7.5,
+        "attendanceStatus": "late",
+        "lateMinutes": 5,
+        "overtimeHours": 0,
+        "client": {
+          "id": "507f1f77bcf86cd799439030",
+          "companyName": "ABC Corporation"
+        },
+        "billableHours": 7.5,
+        "isVerified": true,
+        "verifiedBy": {
+          "id": "507f1f77bcf86cd799439012",
+          "name": "Jane Smith"
+        }
+      }
+    ],
+    "summary": {
+      "totalDays": 7,
+      "presentDays": 6,
+      "lateDays": 2,
+      "absentDays": 1,
+      "totalWorkHours": 45.5,
+      "averageWorkHours": 7.6
+    },
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 1,
+      "totalRecords": 7,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>22. Get Today's Attendance</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/attendance/today</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "clockedIn": 42,
+    "clockedOut": 8,
+    "onBreak": 5,
+    "late": 3,
+    "absent": 2,
+    "onLeave": 4,
+    "employees": [
+      {
+        "id": "507f1f77bcf86cd799439011",
+        "employeeId": "EMP001",
+        "name": "John Doe",
+        "status": "present",
+        "clockInTime": "2024-11-07T09:05:00.000Z",
+        "currentLocation": "Client Office",
+        "isOnBreak": false
+      }
+    ]
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>23. Manual Attendance Entry</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/attendance/manual-entry</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "employeeId": "507f1f77bcf86cd799439011",
+  "date": "2024-11-06",
+  "clockIn": {
+    "time": "2024-11-06T09:00:00.000Z",
+    "ipAddress": "192.168.1.10"
+  },
+  "clockOut": {
+    "time": "2024-11-06T18:00:00.000Z",
+    "ipAddress": "192.168.1.10"
+  },
+  "breaks": [
+    {
+      "breakStart": "2024-11-06T13:00:00.000Z",
+      "breakEnd": "2024-11-06T14:00:00.000Z",
+      "breakType": "lunch"
+    }
+  ],
+  "clientId": "507f1f77bcf86cd799439030",
+  "reason": "System was down, manual entry by HR"
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Manual attendance entry created",
+  "data": {
+    "attendanceId": "507f1f77bcf86cd799439051",
+    "totalWorkHours": 8.0,
+    "netWorkHours": 7.0
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>24. Correct Attendance</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/attendance/:id/correct</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "clockIn": {
+    "time": "2024-11-07T09:00:00.000Z"
+  },
+  "clockOut": {
+    "time": "2024-11-07T18:15:00.000Z"
+  },
+  "correctionReason": "Employee forgot to clock out"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Attendance corrected successfully",
+  "data": {
+    "attendanceId": "507f1f77bcf86cd799439050",
+    "correctedBy": {
+      "id": "507f1f77bcf86cd799439012",
+      "name": "Jane Smith"
+    },
+    "correctedAt": "2024-11-07T20:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Leave Management Endpoints</h2>
+
+<h3>25. Create Leave Request</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/leave-requests</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "employeeId": "507f1f77bcf86cd799439011",
+  "leaveType": "casual",
+  "startDate": "2024-11-15",
+  "endDate": "2024-11-16",
+  "halfDay": false,
+  "reason": "Family function",
+  "attachments": ["https://cdn.pulseops.com/leaves/medical-cert-001.pdf"]
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Leave request submitted successfully",
+  "data": {
+    "leaveRequestId": "507f1f77bcf86cd799439060",
+    "status": "pending",
+    "numberOfDays": 2,
+    "remainingBalance": {
+      "casual": 8,
+      "sick": 7,
+      "earned": 15,
+      "compOff": 2
+    },
+    "approvers": [
+      {
+        "id": "507f1f77bcf86cd799439012",
+        "name": "Jane Smith",
+        "role": "Manager"
+      }
+    ]
+  }
+}
+</code></pre>
+
+<p><strong>Error Response (400):</strong></p>
+<pre><code>
+{
+  "success": false,
+  "error": {
+    "code": "INSUFFICIENT_LEAVE_BALANCE",
+    "message": "Insufficient casual leave balance. Available: 1 day, Requested: 2 days"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>26. Get Leave Requests</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/leave-requests</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?employeeId=507f1f77bcf86cd799439011
+&amp;status=pending,approved
+&amp;leaveType=casual,sick
+&amp;startDate=2024-11-01
+&amp;endDate=2024-11-30
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "leaveRequests": [
+      {
+        "id": "507f1f77bcf86cd799439060",
+        "employee": {
+          "id": "507f1f77bcf86cd799439011",
+          "employeeId": "EMP001",
+          "name": "John Doe"
+        },
+        "leaveType": "casual",
+        "startDate": "2024-11-15T00:00:00.000Z",
+        "endDate": "2024-11-16T00:00:00.000Z",
+        "numberOfDays": 2,
+        "halfDay": false,
+        "reason": "Family function",
+        "status": "pending",
+        "approvalFlow": [
+          {
+            "approverId": "507f1f77bcf86cd799439012",
+            "approverName": "Jane Smith",
+            "approverRole": "Manager",
+            "action": null,
+            "actionDate": null
+          }
+        ],
+        "createdAt": "2024-11-07T10:00:00.000Z"
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 2,
+      "totalRecords": 15,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>27. Approve/Reject Leave Request</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/leave-requests/:id/approve</code> or <code>PUT /api/leave-requests/:id/reject</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "comments": "Approved. Enjoy your leave!"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Leave request approved successfully",
+  "data": {
+    "leaveRequestId": "507f1f77bcf86cd799439060",
+    "status": "approved",
+    "approvedBy": {
+      "id": "507f1f77bcf86cd799439012",
+      "name": "Jane Smith"
+    },
+    "approvedAt": "2024-11-07T14:00:00.000Z",
+    "updatedLeaveBalance": {
+      "casual": 8,
+      "sick": 7,
+      "earned": 15,
+      "compOff": 2
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>28. Cancel Leave Request</h3>
+<p><strong>Endpoint:</strong> <code>DELETE /api/leave-requests/:id</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "cancelReason": "Plans changed"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Leave request cancelled successfully",
+  "data": {
+    "leaveRequestId": "507f1f77bcf86cd799439060",
+    "restoredBalance": {
+      "casual": 10
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Reimbursement Endpoints</h2>
+
+<h3>29. Create Reimbursement</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/reimbursements</code></p>
+
+<p><strong>Request Body:</strong> (multipart/form-data)</p>
+<pre><code>
+{
+  "employeeId": "507f1f77bcf86cd799439011",
+  "category": "travel",
+  "amount": 250.00,
+  "currency": "INR",
+  "expenseDate": "2024-11-05",
+  "merchantName": "Uber",
+  "description": "Client meeting transportation",
+  "receipts": [File, File]  // Image files
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Reimbursement claim submitted successfully",
+  "data": {
+    "reimbursementId": "507f1f77bcf86cd799439070",
+    "status": "pending",
+    "receiptsUploaded": 2,
+    "receiptUrls": [
+      "https://cdn.pulseops.com/reimbursements/receipt-001.jpg",
+      "https://cdn.pulseops.com/reimbursements/receipt-002.jpg"
+    ]
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>30. Get Reimbursements</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/reimbursements</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?employeeId=507f1f77bcf86cd799439011
+&amp;status=pending,approved
+&amp;category=travel,food
+&amp;startDate=2024-11-01
+&amp;endDate=2024-11-30
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "reimbursements": [
+      {
+        "id": "507f1f77bcf86cd799439070",
+        "employee": {
+          "id": "507f1f77bcf86cd799439011",
+          "employeeId": "EMP001",
+          "name": "John Doe"
+        },
+        "category": "travel",
+        "amount": 250.00,
+        "currency": "INR",
+        "expenseDate": "2024-11-05T00:00:00.000Z",
+        "merchantName": "Uber",
+        "description": "Client meeting transportation",
+        "receipts": [
+          {
+            "fileUrl": "https://cdn.pulseops.com/reimbursements/receipt-001.jpg",
+            "fileName": "receipt-001.jpg"
+          }
+        ],
+        "status": "pending",
+        "createdAt": "2024-11-06T10:00:00.000Z"
+      }
+    ],
+    "summary": {
+      "totalClaims": 15,
+      "totalAmount": 12500.00,
+      "pendingAmount": 2500.00,
+      "paidAmount": 10000.00
+    },
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 1,
+      "totalRecords": 15,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>31. Approve/Reject Reimbursement</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/reimbursements/:id/approve</code> or <code>PUT /api/reimbursements/:id/reject</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "comments": "Approved for payment"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Reimbursement approved successfully",
+  "data": {
+    "reimbursementId": "507f1f77bcf86cd799439070",
+    "status": "approved",
+    "approvedBy": {
+      "id": "507f1f77bcf86cd799439012",
+      "name": "Jane Smith"
+    },
+    "approvedAt": "2024-11-07T15:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>32. Mark as Paid</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/reimbursements/:id/mark-paid</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "paymentMethod": "bank-transfer",
+  "paymentReference": "TXN123456789",
+  "paymentDate": "2024-11-08"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Reimbursement marked as paid",
+  "data": {
+    "reimbursementId": "507f1f77bcf86cd799439070",
+    "status": "paid",
+    "paymentDate": "2024-11-08T00:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Client Management Endpoints</h2>
+
+<h3>33. Get Clients</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/clients</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?isActive=true
+&amp;search=abc
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "clients": [
+      {
+        "id": "507f1f77bcf86cd799439030",
+        "clientCode": "CLT001",
+        "companyName": "ABC Corporation",
+        "contactPerson": {
+          "name": "Michael Brown",
+          "email": "michael@abccorp.com",
+          "phone": "+1-555-0100"
+        },
+        "billing": {
+          "hourlyRate": 50.00,
+          "currency": "USD",
+          "billingCycle": "monthly"
+        },
+        "assignedEmployeesCount": 5,
+        "isActive": true,
+        "createdAt": "2023-06-01T00:00:00.000Z"
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 2,
+      "totalRecords": 12,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>34. Create Client</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/clients</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "clientCode": "CLT002",
+  "companyName": "XYZ Industries",
+  "contactPerson": {
+    "name": "Sarah Johnson",
+    "email": "sarah@xyzind.com",
+    "phone": "+1-555-0200",
+    "designation": "Operations Manager"
+  },
+  "address": {
+    "street": "789 Business Blvd",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "zipCode": "10001"
+  },
+  "billing": {
+    "hourlyRate": 60.00,
+    "currency": "USD",
+    "paymentTerms": "Net 30",
+    "billingCycle": "monthly",
+    "taxId": "12-3456789"
+  },
+  "contractStartDate": "2024-11-01",
+  "contractEndDate": "2025-10-31",
+  "contractType": "hourly"
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Client created successfully",
+  "data": {
+    "clientId": "507f1f77bcf86cd799439031",
+    "clientCode": "CLT002"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>35. Generate Client Invoice</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/clients/:id/generate-invoice</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "startDate": "2024-11-01",
+  "endDate": "2024-11-30",
+  "includeEmployees": [
+    "507f1f77bcf86cd799439011",
+    "507f1f77bcf86cd799439013"
+  ]
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Invoice generated successfully",
+  "data": {
+    "invoiceNumber": "INV-2024-11-001",
+    "invoiceDate": "2024-11-30T00:00:00.000Z",
+    "client": {
+      "id": "507f1f77bcf86cd799439030",
+      "companyName": "ABC Corporation"
+    },
+    "lineItems": [
+      {
+        "employee": "John Doe (EMP001)",
+        "hoursWorked": 160,
+        "hourlyRate": 50.00,
+        "amount": 8000.00
+      },
+      {
+        "employee": "Jane Smith (EMP002)",
+        "hoursWorked": 120,
+        "hourlyRate": 50.00,
+        "amount": 6000.00
+      }
+    ],
+    "subtotal": 14000.00,
+    "tax": 1400.00,
+    "total": 15400.00,
+    "currency": "USD",
+    "invoiceUrl": "https://cdn.pulseops.com/invoices/INV-2024-11-001.pdf"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Timesheet & Reports Endpoints</h2>
+
+<h3>36. Get Timesheets</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/timesheets</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?employeeId=507f1f77bcf86cd799439011
+&amp;clientId=507f1f77bcf86cd799439030
+&amp;startDate=2024-11-01
+&amp;endDate=2024-11-30
+&amp;status=approved
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "timesheets": [
+      {
+        "id": "507f1f77bcf86cd799439080",
+        "employee": {
+          "id": "507f1f77bcf86cd799439011",
+          "employeeId": "EMP001",
+          "name": "John Doe"
+        },
+        "client": {
+          "id": "507f1f77bcf86cd799439030",
+          "companyName": "ABC Corporation"
+        },
+        "periodType": "monthly",
+        "startDate": "2024-11-01T00:00:00.000Z",
+        "endDate": "2024-11-30T00:00:00.000Z",
+        "summary": {
+          "totalHours": 160,
+          "totalBillableHours": 155,
+          "totalOvertimeHours": 10,
+          "totalDaysWorked": 20
+        },
+        "status": "approved",
+        "managerApprovedBy": {
+          "id": "507f1f77bcf86cd799439012",
+          "name": "Jane Smith"
+        },
+        "managerApprovedAt": "2024-11-30T18:00:00.000Z"
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 1,
+      "totalRecords": 3,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>37. Export Internal Payroll Report</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/timesheets/export/internal</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?employeeId=507f1f77bcf86cd799439011
+&amp;startDate=2024-11-01
+&amp;endDate=2024-11-30
+&amp;format=excel
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "reportUrl": "https://cdn.pulseops.com/reports/payroll-internal-2024-11.xlsx",
+    "generatedAt": "2024-11-30T20:00:00.000Z",
+    "format": "excel",
+    "expiresAt": "2024-12-07T20:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>38. Export Client Billing Report</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/timesheets/export/client</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?clientId=507f1f77bcf86cd799439030
+&amp;startDate=2024-11-01
+&amp;endDate=2024-11-30
+&amp;format=pdf
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "reportUrl": "https://cdn.pulseops.com/reports/client-billing-CLT001-2024-11.pdf",
+    "generatedAt": "2024-11-30T20:00:00.000Z",
+    "format": "pdf",
+    "expiresAt": "2024-12-07T20:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Announcement Endpoints</h2>
+
+<h3>39. Get Announcements</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/announcements</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?status=published
+&amp;category=policy,holiday
+&amp;startDate=2024-11-01
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "announcements": [
+      {
+        "id": "507f1f77bcf86cd799439090",
+        "title": "Diwali Holiday Notice",
+        "content": "Office will remain closed on November 12-13 for Diwali celebrations.",
+        "category": "holiday",
+        "priority": "high",
+        "publishDate": "2024-11-01T00:00:00.000Z",
+        "expiryDate": "2024-11-15T00:00:00.000Z",
+        "status": "published",
+        "acknowledgmentRequired": true,
+        "viewCount": 45,
+        "acknowledgmentCount": 42,
+        "publishedBy": {
+          "id": "507f1f77bcf86cd799439012",
+          "name": "Jane Smith"
+        }
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 2,
+      "totalRecords": 25,
+      "limit": 20
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>40. Create Announcement</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/announcements</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "title": "New Leave Policy Update",
+  "content": "We are pleased to announce updates to our leave policy...",
+  "category": "policy",
+  "priority": "high",
+  "targetAudience": {
+    "roles": ["employee", "manager"],
+    "departments": ["Operations", "HR"],
+    "locations": ["Mumbai Office"],
+    "specificUsers": []
+  },
+  "publishDate": "2024-11-08T09:00:00.000Z",
+  "expiryDate": "2024-12-31T23:59:59.000Z",
+  "acknowledgmentRequired": true,
+  "attachments": [
+    {
+      "fileUrl": "https://cdn.pulseops.com/policies/leave-policy-2024.pdf",
+      "fileName": "Leave Policy 2024.pdf"
+    }
+  ]
+}
+</code></pre>
+
+<p><strong>Success Response (201):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Announcement created successfully",
+  "data": {
+    "announcementId": "507f1f77bcf86cd799439091",
+    "status": "published",
+    "targetedEmployees": 52
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>41. Mark Announcement as Read</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/announcements/:id/mark-read</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Announcement marked as read"
+}
+</code></pre>
+
+<hr>
+
+<h3>42. Acknowledge Announcement</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/announcements/:id/acknowledge</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Announcement acknowledged",
+  "data": {
+    "announcementId": "507f1f77bcf86cd799439090",
+    "acknowledgedAt": "2024-11-07T16:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Dashboard & Analytics Endpoints</h2>
+
+<h3>43. Get Dashboard Stats</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/dashboard/stats</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "attendance": {
+      "clockedIn": 42,
+      "clockedOut": 8,
+      "late": 3,
+      "absent": 2,
+      "onLeave": 4
+    },
+    "pendingApprovals": {
+      "leave": 5,
+      "reimbursement": 8,
+      "timesheet": 3
+    },
+    "monthlyStats": {
+      "attendancePercentage": 92.5,
+      "averageWorkHours": 7.8,
+      "totalOvertimeHours": 45,
+      "totalBillableHours": 3200
+    },
+    "alerts": {
+      "lateArrivals": 3,
+      "forgotClockOut": 1,
+      "pendingLeaveApprovals": 5
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>44. Generate Report</h3>
+<p><strong>Endpoint:</strong> <code>POST /api/reports/generate</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "reportType": "attendance",
+  "filters": {
+    "startDate": "2024-11-01",
+    "endDate": "2024-11-30",
+    "employeeIds": ["507f1f77bcf86cd799439011"],
+    "departments": ["Operations"],
+    "locations": ["Mumbai Office"]
+  },
+  "format": "excel"
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Report generated successfully",
+  "data": {
+    "reportId": "507f1f77bcf86cd799439100",
+    "reportUrl": "https://cdn.pulseops.com/reports/attendance-2024-11.xlsx",
+    "generatedAt": "2024-11-07T18:00:00.000Z",
+    "expiresAt": "2024-11-14T18:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Notification Endpoints</h2>
+
+<h3>45. Get Notifications</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/notifications</code></p>
+
+<p><strong>Query Parameters:</strong></p>
+<pre><code>
+?status=unread
+&amp;type=shift-reminder,leave-status
+&amp;page=1
+&amp;limit=20
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "notifications": [
+      {
+        "id": "507f1f77bcf86cd799439110",
+        "type": "shift-reminder",
+        "title": "Shift Reminder",
+        "message": "Your shift at ABC Corporation starts in 1 hour (09:00 AM)",
+        "status": "unread",
+        "createdAt": "2024-11-07T08:00:00.000Z",
+        "actionButton": {
+          "label": "Confirm Attendance",
+          "actionType": "confirm-shift",
+          "actionUrl": "/api/schedule/shifts/shift_001/confirm"
+        }
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 2,
+      "totalRecords": 15,
+      "limit": 20
+    },
+    "unreadCount": 8
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>46. Mark Notification as Read</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/notifications/:id/read</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Notification marked as read"
+}
+</code></pre>
+
+<hr>
+
+<h2>System Settings Endpoints</h2>
+
+<h3>47. Get System Settings</h3>
+<p><strong>Endpoint:</strong> <code>GET /api/settings</code></p>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "attendancePolicies": {
+      "lateThresholdMinutes": 8,
+      "halfDayThresholdMinutes": 30,
+      "gracePeriodMinutes": 5,
+      "overtimeThresholdHours": 8
+    },
+    "leavePolicies": {
+      "casualLeavePerYear": 12,
+      "sickLeavePerYear": 7,
+      "earnedLeavePerYear": 15,
+      "minimumNoticeHours": 24,
+      "maxConsecutiveDays": 10
+    },
+    "notificationSettings": {
+      "shiftReminderHours": 1,
+      "enableEmailNotifications": true,
+      "enablePushNotifications": true,
+      "birthdayReminder": true,
+      "anniversaryReminder": true
+    },
+    "securitySettings": {
+      "sessionTimeoutMinutes": 30,
+      "passwordExpiryDays": 90,
+      "maxLoginAttempts": 5,
+      "ipWhitelistEnabled": true
+    },
+    "billingSettings": {
+      "defaultCurrency": "USD",
+      "taxRates": {
+        "GST": 18
+      },
+      "invoicePrefix": "INV",
+      "paymentTermsDays": 30
+    }
+  }
+}
+</code></pre>
+
+<hr>
+
+<h3>48. Update Settings</h3>
+<p><strong>Endpoint:</strong> <code>PUT /api/settings/:category</code></p>
+
+<p><strong>Request Body:</strong></p>
+<pre><code>
+{
+  "lateThresholdMinutes": 10,
+  "halfDayThresholdMinutes": 30,
+  "gracePeriodMinutes": 5,
+  "overtimeThresholdHours": 9
+}
+</code></pre>
+
+<p><strong>Success Response (200):</strong></p>
+<pre><code>
+{
+  "success": true,
+  "message": "Settings updated successfully",
+  "data": {
+    "category": "attendance-policy",
+    "updatedBy": {
+      "id": "507f1f77bcf86cd799439012",
+      "name": "Jane Smith"
+    },
+    "updatedAt": "2024-11-07T19:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Error Response Format</h2>
+
+<p>All error responses follow this standard format:</p>
+
+<pre><code>
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error message",
+    "details": [  // Optional, for validation errors
+      {
+        "field": "fieldName",
+        "message": "Field-specific error message"
+      }
+    ],
+    "timestamp": "2024-11-07T12:00:00.000Z"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Common Error Codes</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>HTTP Status</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>INVALID_CREDENTIALS</code></td>
+            <td>401</td>
+            <td>Invalid username or password</td>
+        </tr>
+        <tr>
+            <td><code>UNAUTHORIZED</code></td>
+            <td>401</td>
+            <td>Missing or invalid access token</td>
+        </tr>
+        <tr>
+            <td><code>FORBIDDEN</code></td>
+            <td>403</td>
+            <td>User doesn't have required permissions</td>
+        </tr>
+        <tr>
+            <td><code>NOT_FOUND</code></td>
+            <td>404</td>
+            <td>Resource not found</td>
+        </tr>
+        <tr>
+            <td><code>VALIDATION_ERROR</code></td>
+            <td>400</td>
+            <td>Request validation failed</td>
+        </tr>
+        <tr>
+            <td><code>DUPLICATE_ENTRY</code></td>
+            <td>409</td>
+            <td>Resource already exists</td>
+        </tr>
+        <tr>
+            <td><code>INSUFFICIENT_BALANCE</code></td>
+            <td>400</td>
+            <td>Insufficient leave balance</td>
+        </tr>
+        <tr>
+            <td><code>IP_NOT_ALLOWED</code></td>
+            <td>403</td>
+            <td>IP address not whitelisted</td>
+        </tr>
+        <tr>
+            <td><code>RATE_LIMIT_EXCEEDED</code></td>
+            <td>429</td>
+            <td>Too many requests</td>
+        </tr>
+        <tr>
+            <td><code>INTERNAL_SERVER_ERROR</code></td>
+            <td>500</td>
+            <td>Server error</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h2>Pagination</h2>
+
+<p>All list endpoints support pagination with the following query parameters:</p>
+
+<li><code>page</code> (default: 1)</li>
+<li><code>limit</code> (default: 20, max: 100)</li>
+
+<p>Response includes:</p>
+<pre><code>
+{
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 5,
+    "totalRecords": 87,
+    "limit": 20,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Rate Limiting</h2>
+
+<li><strong>Default:</strong> 100 requests per minute per user</li>
+<li><strong>Authentication endpoints:</strong> 5 requests per 15 minutes per IP</li>
+<li><strong>Report generation:</strong> 10 requests per hour per user</li>
+
+<p>Rate limit headers:</p>
+<pre><code>
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1699372800
+</code></pre>
+
+<hr>
+
+<h2>Webhooks (Future Phase)</h2>
+
+<p>Webhook events for real-time notifications:</p>
+<li><code>attendance.clock_in</code></li>
+<li><code>attendance.clock_out</code></li>
+<li><code>leave.approved</code></li>
+<li><code>leave.rejected</code></li>
+<li><code>reimbursement.approved</code></li>
+<li><code>schedule.published</code></li>
+
+<hr>
+
+            </section>
+
+            <section id="section-deployment" class="section">
+                <h1>Pulse Ops - Deployment Architecture & Infrastructure</h1>
+
+<h2>Deployment Architecture Overview</h2>
+
+<div class="diagram-container"><div class="diagram-title">Figure 5</div><div class="mermaid">
+graph TB
+    subgraph "Client Devices"
+        BROWSER[Web Browsers]
+        IOS[iOS Devices]
+        ANDROID[Android Devices]
+    end
+    
+    subgraph "CDN Layer"
+        CLOUDFLARE[Cloudflare CDN<br/>Static Assets, Images, Reports]
+    end
+    
+    subgraph "Load Balancer"
+        LB[Nginx Load Balancer<br/>SSL Termination<br/>Rate Limiting]
+    end
+    
+    subgraph "Application Servers - Docker Containers"
+        WEB1[Web App Container 1<br/>React - Admin Dashboard]
+        WEB2[Web App Container 2<br/>React - Employee Portal]
+        API1[API Server 1<br/>Node.js + Express]
+        API2[API Server 2<br/>Node.js + Express]
+        API3[API Server 3<br/>Node.js + Express]
+    end
+    
+    subgraph "Background Services"
+        CRON[Cron Jobs Container<br/>Scheduled Tasks]
+        WORKER[Worker Container<br/>Queue Processing]
+    end
+    
+    subgraph "Database Layer"
+        MONGO_PRIMARY[(MongoDB Primary)]
+        MONGO_SECONDARY1[(MongoDB Secondary 1)]
+        MONGO_SECONDARY2[(MongoDB Secondary 2)]
+        REDIS[(Redis Cluster<br/>Cache + Sessions)]
+    end
+    
+    subgraph "Storage & External Services"
+        S3[AWS S3 / Cloudinary<br/>File Storage]
+        EMAIL[SendGrid / AWS SES<br/>Email Service]
+        FCM[Firebase Cloud Messaging<br/>Push Notifications]
+        MONITORING[Monitoring & Logging<br/>Sentry, PM2, LogRocket]
+    end
+    
+    BROWSER --> CLOUDFLARE
+    IOS --> LB
+    ANDROID --> LB
+    CLOUDFLARE --> LB
+    
+    LB --> WEB1
+    LB --> WEB2
+    LB --> API1
+    LB --> API2
+    LB --> API3
+    
+    API1 --> MONGO_PRIMARY
+    API2 --> MONGO_PRIMARY
+    API3 --> MONGO_PRIMARY
+    
+    API1 --> REDIS
+    API2 --> REDIS
+    API3 --> REDIS
+    
+    MONGO_PRIMARY --> MONGO_SECONDARY1
+    MONGO_PRIMARY --> MONGO_SECONDARY2
+    
+    API1 --> S3
+    API1 --> EMAIL
+    API1 --> FCM
+    
+    CRON --> MONGO_PRIMARY
+    WORKER --> MONGO_PRIMARY
+    
+    API1 -.-> MONITORING
+    API2 -.-> MONITORING
+    API3 -.-> MONITORING
+    
+    style BROWSER fill:#e1f5ff
+    style IOS fill:#e1f5ff
+    style ANDROID fill:#e1f5ff
+    style LB fill:#fff4e6
+    style MONGO_PRIMARY fill:#e8f5e9
+    style REDIS fill:#ffebee
+</div></div>
+<hr>
+
+<h2>Infrastructure Requirements</h2>
+
+<h3>Development Environment</h3>
+
+<p><strong>Minimum Specifications:</strong></p>
+<li><strong>OS:</strong> macOS, Windows 10/11, or Linux (Ubuntu 20.04+)</li>
+<li><strong>RAM:</strong> 16 GB</li>
+<li><strong>Storage:</strong> 50 GB free space</li>
+<li><strong>CPU:</strong> 4+ cores</li>
+
+<p><strong>Required Software:</strong></p>
+<li>Node.js 18.x or 20.x</li>
+<li>MongoDB 6.x (local or Docker)</li>
+<li>Redis 7.x</li>
+<li>Docker & Docker Compose</li>
+<li>Git</li>
+<li>VS Code or preferred IDE</li>
+
+<hr>
+
+<h3>Staging Environment</h3>
+
+<p><strong>Server Specifications:</strong></p>
+<li><strong>Cloud Provider:</strong> AWS, Google Cloud, or DigitalOcean</li>
+<li><strong>Instance Type:</strong> t3.medium (AWS) or equivalent</li>
+<li><strong>RAM:</strong> 4 GB</li>
+<li><strong>CPU:</strong> 2 vCPUs</li>
+<li><strong>Storage:</strong> 50 GB SSD</li>
+
+<p><strong>Services:</strong></p>
+<li>MongoDB Atlas (M10 cluster) or self-hosted MongoDB</li>
+<li>Redis Cloud (250 MB) or self-hosted Redis</li>
+<li>AWS S3 bucket or equivalent</li>
+<li>SendGrid (Free tier: 100 emails/day)</li>
+
+<hr>
+
+<h3>Production Environment</h3>
+
+<p><strong>Server Specifications:</strong></p>
+
+<p><strong>Web Application Servers (2+ instances):</strong></p>
+<li><strong>Instance Type:</strong> t3.medium (AWS)</li>
+<li><strong>RAM:</strong> 4 GB per instance</li>
+<li><strong>CPU:</strong> 2 vCPUs per instance</li>
+<li><strong>OS:</strong> Ubuntu 22.04 LTS</li>
+
+<p><strong>API Servers (3+ instances):</strong></p>
+<li><strong>Instance Type:</strong> t3.large (AWS)</li>
+<li><strong>RAM:</strong> 8 GB per instance</li>
+<li><strong>CPU:</strong> 2 vCPUs per instance</li>
+<li><strong>OS:</strong> Ubuntu 22.04 LTS</li>
+
+<p><strong>Database Servers:</strong></p>
+<li><strong>MongoDB Cluster:</strong> 3-node replica set</li>
+<li>Primary: m5.xlarge (16 GB RAM, 4 vCPUs)</li>
+<li>Secondary 1: m5.xlarge</li>
+<li>Secondary 2: m5.xlarge</li>
+<li>Storage: 500 GB SSD with IOPS</li>
+
+<li><strong>Redis Cluster:</strong> 2-node cluster</li>
+<li>Instance Type: cache.m5.large (6 GB RAM)</li>
+<li>Persistence: AOF + RDB</li>
+
+<p><strong>Load Balancer:</strong></p>
+<li>AWS Application Load Balancer or Nginx on t3.small</li>
+
+<p><strong>Storage:</strong></p>
+<li>AWS S3 bucket (500 GB)</li>
+<li>CloudFront CDN for asset delivery</li>
+
+<p><strong>Backup:</strong></p>
+<li>Daily automated MongoDB backups</li>
+<li>S3 versioning enabled</li>
+<li>30-day retention policy</li>
+
+<hr>
+
+<h2>Technology Stack Details</h2>
+
+<h3>Frontend Stack</h3>
+
+<h4>Admin Dashboard & Employee Portal</h4>
+<pre><code>
+{
+  "framework": "React 18.2.0",
+  "language": "TypeScript 5.0+",
+  "stateManagement": {
+    "redux": "@reduxjs/toolkit 1.9+",
+    "apiCache": "@tanstack/react-query 5.0+"
+  },
+  "uiLibrary": {
+    "primary": "Material-UI (MUI) 5.14+",
+    "alternative": "Ant Design 5.10+"
+  },
+  "forms": {
+    "validation": "react-hook-form 7.47+",
+    "schema": "yup 1.3+"
+  },
+  "routing": "react-router-dom 6.16+",
+  "charts": "recharts 2.8+",
+  "tables": "@tanstack/react-table 8.10+",
+  "dateHandling": "date-fns 2.30+",
+  "notifications": "react-hot-toast 2.4+",
+  "http": "axios 1.5+",
+  "buildTool": "vite 4.5+"
+}
+</code></pre>
+
+<p><strong>package.json (Frontend):</strong></p>
+<pre><code>
+{
+  "name": "pulse-ops-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc &amp;&amp; vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "@reduxjs/toolkit": "^1.9.7",
+    "react-redux": "^8.1.3",
+    "@tanstack/react-query": "^5.0.5",
+    "@mui/material": "^5.14.13",
+    "@mui/x-data-grid": "^6.16.2",
+    "@mui/x-date-pickers": "^6.16.2",
+    "react-hook-form": "^7.47.0",
+    "yup": "^1.3.2",
+    "axios": "^1.5.1",
+    "recharts": "^2.8.0",
+    "@tanstack/react-table": "^8.10.7",
+    "date-fns": "^2.30.0",
+    "react-hot-toast": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "@vitejs/plugin-react": "^4.1.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "eslint": "^8.51.0",
+    "vitest": "^0.34.6"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h4>Mobile App (Flutter)</h4>
+<pre><code>
+# pubspec.yaml
+name: pulse_ops_mobile
+version: 1.0.0+1
+
+environment:
+  sdk: '&gt;=3.0.0 &lt;4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.4.0
+  
+  # Networking
+  dio: ^5.3.3
+  pretty_dio_logger: ^1.3.1
+  
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.2.2
+  
+  # Authentication
+  local_auth: ^2.1.7
+  flutter_secure_storage: ^9.0.0
+  
+  # Notifications
+  firebase_core: ^2.20.0
+  firebase_messaging: ^14.7.3
+  flutter_local_notifications: ^16.1.0
+  
+  # Location
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  
+  # Image Handling
+  image_picker: ^1.0.4
+  cached_network_image: ^3.3.0
+  
+  # File Handling
+  file_picker: ^6.0.0
+  path_provider: ^2.1.1
+  
+  # UI Components
+  flutter_svg: ^2.0.9
+  shimmer: ^3.0.0
+  
+  # Date/Time
+  intl: ^0.18.1
+  
+  # Utilities
+  url_launcher: ^6.2.1
+  connectivity_plus: ^5.0.1
+</code></pre>
+
+<hr>
+
+<h3>Backend Stack</h3>
+
+<h4>Node.js API Server</h4>
+<pre><code>
+{
+  "runtime": "Node.js 18.x or 20.x LTS",
+  "framework": "Express 4.18+",
+  "language": "JavaScript (ES6+) or TypeScript",
+  "database": {
+    "primary": "MongoDB 6.x",
+    "driver": "mongoose 7.6+"
+  },
+  "cache": {
+    "redis": "redis 4.6+",
+    "session": "connect-redis 7.1+"
+  },
+  "authentication": {
+    "jwt": "jsonwebtoken 9.0+",
+    "bcrypt": "bcryptjs 2.4+"
+  },
+  "validation": "joi 17.11+",
+  "fileUpload": "multer 1.4+",
+  "fileStorage": "aws-sdk 2.1400+ or @aws-sdk/client-s3 3.x",
+  "email": "nodemailer 6.9+ or @sendgrid/mail 7.7+",
+  "logging": "winston 3.11+",
+  "monitoring": "@sentry/node 7.77+",
+  "testing": {
+    "framework": "jest 29.7+",
+    "supertest": "supertest 6.3+"
+  },
+  "processManager": "pm2 5.3+"
+}
+</code></pre>
+
+<p><strong>package.json (Backend):</strong></p>
+<pre><code>
+{
+  "name": "pulse-ops-api",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --coverage",
+    "lint": "eslint src/**/*.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3",
+    "redis": "^4.6.10",
+    "connect-redis": "^7.1.0",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "joi": "^17.11.0",
+    "multer": "^1.4.5-lts.1",
+    "aws-sdk": "^2.1479.0",
+    "@sendgrid/mail": "^7.7.0",
+    "nodemailer": "^6.9.7",
+    "winston": "^3.11.0",
+    "@sentry/node": "^7.77.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.4",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
+    "node-cron": "^3.0.3",
+    "exceljs": "^4.4.0",
+    "pdfkit": "^0.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.52.0"
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>Project Structure</h2>
+
+<h3>Backend Project Structure</h3>
+<pre><code>
+pulse-ops-api/
+├── src/
+│   ├── config/
+│   │   ├── database.js
+│   │   ├── redis.js
+│   │   ├── aws.js
+│   │   └── constants.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Attendance.js
+│   │   ├── Schedule.js
+│   │   ├── LeaveRequest.js
+│   │   ├── Reimbursement.js
+│   │   ├── Client.js
+│   │   ├── Timesheet.js
+│   │   ├── Announcement.js
+│   │   └── ...
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   │   ├── attendanceController.js
+│   │   ├── scheduleController.js
+│   │   ├── leaveController.js
+│   │   ├── reimbursementController.js
+│   │   └── ...
+│   ├── services/
+│   │   ├── authService.js
+│   │   ├── emailService.js
+│   │   ├── notificationService.js
+│   │   ├── fileUploadService.js
+│   │   ├── reportService.js
+│   │   └── ...
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   ├── validation.js
+│   │   ├── errorHandler.js
+│   │   ├── rateLimiter.js
+│   │   └── ipWhitelist.js
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   ├── attendance.routes.js
+│   │   ├── schedule.routes.js
+│   │   ├── leave.routes.js
+│   │   ├── reimbursement.routes.js
+│   │   └── ...
+│   ├── utils/
+│   │   ├── logger.js
+│   │   ├── helpers.js
+│   │   ├── validators.js
+│   │   └── dateUtils.js
+│   ├── jobs/
+│   │   ├── shiftReminders.js
+│   │   ├── attendanceAlerts.js
+│   │   ├── reportGeneration.js
+│   │   └── birthdayReminders.js
+│   ├── app.js
+│   └── server.js
+├── tests/
+│   ├── unit/
+│   └── integration/
+├── .env.example
+├── .gitignore
+├── package.json
+├── README.md
+└── ecosystem.config.js (PM2 config)
+</code></pre>
+
+<h3>Frontend Project Structure</h3>
+<pre><code>
+pulse-ops-frontend/
+├── public/
+│   ├── index.html
+│   ├── favicon.ico
+│   └── assets/
+├── src/
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Button.tsx
+│   │   │   ├── Input.tsx
+│   │   │   ├── Modal.tsx
+│   │   │   ├── Table.tsx
+│   │   │   └── ...
+│   │   ├── layout/
+│   │   │   ├── Sidebar.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── MainLayout.tsx
+│   │   ├── dashboard/
+│   │   ├── users/
+│   │   ├── attendance/
+│   │   ├── schedule/
+│   │   ├── leave/
+│   │   └── ...
+│   ├── pages/
+│   │   ├── Dashboard.tsx
+│   │   ├── Login.tsx
+│   │   ├── Users/
+│   │   ├── Attendance/
+│   │   ├── Schedule/
+│   │   └── ...
+│   ├── store/
+│   │   ├── slices/
+│   │   │   ├── authSlice.ts
+│   │   │   ├── userSlice.ts
+│   │   │   └── ...
+│   │   └── store.ts
+│   ├── services/
+│   │   ├── api.ts
+│   │   ├── authService.ts
+│   │   ├── userService.ts
+│   │   └── ...
+│   ├── hooks/
+│   │   ├── useAuth.ts
+│   │   ├── useDebounce.ts
+│   │   └── ...
+│   ├── utils/
+│   │   ├── constants.ts
+│   │   ├── helpers.ts
+│   │   └── validators.ts
+│   ├── types/
+│   │   └── index.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── routes.tsx
+├── .env.example
+├── .gitignore
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+</code></pre>
+
+<hr>
+
+<h2>Docker Configuration</h2>
+
+<h3>docker-compose.yml (Development)</h3>
+<pre><code>
+version: '3.8'
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:6.0
+    container_name: pulseops-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: pulseops
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - pulseops-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: pulseops-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass redis123
+    volumes:
+      - redis_data:/data
+    networks:
+      - pulseops-network
+
+  # API Server
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pulseops-api
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/pulseops?authSource=admin
+      REDIS_URL: redis://:redis123@redis:6379
+      JWT_SECRET: your-jwt-secret-key
+      JWT_EXPIRES_IN: 1h
+      JWT_REFRESH_SECRET: your-refresh-secret
+      JWT_REFRESH_EXPIRES_IN: 7d
+    depends_on:
+      - mongodb
+      - redis
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - pulseops-network
+
+  # Frontend - Admin Dashboard
+  admin-web:
+    build:
+      context: ./frontend/admin
+      dockerfile: Dockerfile
+    container_name: pulseops-admin-web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    volumes:
+      - ./frontend/admin:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - pulseops-network
+
+  # Frontend - Employee Portal
+  employee-web:
+    build:
+      context: ./frontend/employee
+      dockerfile: Dockerfile
+    container_name: pulseops-employee-web
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    volumes:
+      - ./frontend/employee:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - pulseops-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  pulseops-network:
+    driver: bridge
+</code></pre>
+
+<h3>Dockerfile (Backend)</h3>
+<pre><code>
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm ci --only=production
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["node", "src/server.js"]
+</code></pre>
+
+<h3>Dockerfile (Frontend)</h3>
+<pre><code>
+FROM node:18-alpine as build
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+</code></pre>
+
+<hr>
+
+<h2>Environment Variables</h2>
+
+<h3>Backend (.env)</h3>
+<pre><code>
+# Server Configuration
+NODE_ENV=production
+PORT=5000
+API_VERSION=v1
+
+# Database
+MONGODB_URI=mongodb://username:password@host:27017/pulseops?authSource=admin
+MONGODB_MAX_POOL_SIZE=10
+
+# Redis
+REDIS_URL=redis://:password@host:6379
+REDIS_SESSION_PREFIX=pulseops:sess:
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=1h
+JWT_REFRESH_SECRET=your-refresh-token-secret
+JWT_REFRESH_EXPIRES_IN=7d
+
+# AWS S3
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=pulseops-files
+
+# Email Service (SendGrid)
+SENDGRID_API_KEY=your-sendgrid-api-key
+EMAIL_FROM=noreply@pulseops.com
+EMAIL_FROM_NAME=Pulse Ops
+
+# Firebase (Push Notifications)
+FIREBASE_PROJECT_ID=pulseops-project
+FIREBASE_PRIVATE_KEY=your-firebase-private-key
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk@pulseops.iam.gserviceaccount.com
+
+# Cloudinary (Alternative to S3)
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+
+# Sentry (Error Tracking)
+SENTRY_DSN=your-sentry-dsn
+
+# Security
+SESSION_SECRET=your-session-secret
+ALLOWED_ORIGINS=https://admin.pulseops.com,https://app.pulseops.com
+
+# Rate Limiting
+RATE_LIMIT_WINDOW_MS=60000
+RATE_LIMIT_MAX_REQUESTS=100
+
+# File Upload
+MAX_FILE_SIZE=5242880
+ALLOWED_FILE_TYPES=jpg,jpeg,png,pdf
+
+# Cron Jobs
+ENABLE_CRON_JOBS=true
+SHIFT_REMINDER_CRON=0 * * * *
+</code></pre>
+
+<h3>Frontend (.env)</h3>
+<pre><code>
+# API Configuration
+VITE_API_URL=https://api.pulseops.com/v1
+VITE_API_TIMEOUT=30000
+
+# Firebase (for push notifications)
+VITE_FIREBASE_API_KEY=your-firebase-api-key
+VITE_FIREBASE_AUTH_DOMAIN=pulseops.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=pulseops-project
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+
+# Sentry (Error Tracking)
+VITE_SENTRY_DSN=your-sentry-dsn
+
+# App Configuration
+VITE_APP_NAME=Pulse Ops
+VITE_APP_VERSION=1.0.0
+</code></pre>
+
+<hr>
+
+<h2>PM2 Ecosystem Configuration</h2>
+
+<h3>ecosystem.config.js</h3>
+<pre><code>
+module.exports = {
+  apps: [
+    {
+      name: 'pulseops-api',
+      script: './src/server.js',
+      instances: 'max',
+      exec_mode: 'cluster',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 5000
+      },
+      error_file: './logs/err.log',
+      out_file: './logs/out.log',
+      log_file: './logs/combined.log',
+      time: true,
+      max_memory_restart: '1G',
+      node_args: '--max-old-space-size=4096'
+    },
+    {
+      name: 'pulseops-cron',
+      script: './src/jobs/index.js',
+      instances: 1,
+      exec_mode: 'fork',
+      cron_restart: '0 0 * * *',
+      env: {
+        NODE_ENV: 'production'
+      }
+    }
+  ]
+};
+</code></pre>
+
+<hr>
+
+<h2>Nginx Configuration</h2>
+
+<h3>/etc/nginx/sites-available/pulseops</h3>
+<pre><code>
+# Admin Dashboard
+server {
+    listen 80;
+    server_name admin.pulseops.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name admin.pulseops.com;
+
+    ssl_certificate /etc/letsencrypt/live/admin.pulseops.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/admin.pulseops.com/privkey.pem;
+
+    root /var/www/pulseops-admin/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /assets {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+
+# Employee Portal
+server {
+    listen 80;
+    server_name app.pulseops.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name app.pulseops.com;
+
+    ssl_certificate /etc/letsencrypt/live/app.pulseops.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.pulseops.com/privkey.pem;
+
+    root /var/www/pulseops-employee/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+# API Server
+upstream api_backend {
+    least_conn;
+    server 127.0.0.1:5000;
+    server 127.0.0.1:5001;
+    server 127.0.0.1:5002;
+}
+
+server {
+    listen 80;
+    server_name api.pulseops.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.pulseops.com;
+
+    ssl_certificate /etc/letsencrypt/live/api.pulseops.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.pulseops.com/privkey.pem;
+
+    client_max_body_size 10M;
+
+    location / {
+        proxy_pass http://api_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+</code></pre>
+
+<hr>
+
+<h2>Deployment Checklist</h2>
+
+<h3>Pre-Deployment</h3>
+<li>[ ] All environment variables configured</li>
+<li>[ ] Database indexes created</li>
+<li>[ ] Redis configured and tested</li>
+<li>[ ] S3 bucket created with proper permissions</li>
+<li>[ ] SendGrid/Email service configured</li>
+<li>[ ] Firebase project set up for push notifications</li>
+<li>[ ] SSL certificates obtained (Let's Encrypt)</li>
+<li>[ ] Domain DNS configured</li>
+<li>[ ] CDN configured (Cloudflare)</li>
+
+<h3>Security Checklist</h3>
+<li>[ ] Strong JWT secrets generated</li>
+<li>[ ] Database credentials secured</li>
+<li>[ ] API rate limiting configured</li>
+<li>[ ] CORS properly configured</li>
+<li>[ ] Helmet.js installed and configured</li>
+<li>[ ] SQL injection protection enabled</li>
+<li>[ ] XSS protection enabled</li>
+<li>[ ] CSRF tokens implemented</li>
+<li>[ ] File upload validation</li>
+<li>[ ] IP whitelist configured</li>
+
+<h3>Monitoring & Logging</h3>
+<li>[ ] Sentry configured for error tracking</li>
+<li>[ ] PM2 monitoring enabled</li>
+<li>[ ] MongoDB monitoring (Atlas or self-hosted)</li>
+<li>[ ] Redis monitoring</li>
+<li>[ ] Log rotation configured</li>
+<li>[ ] Uptime monitoring (UptimeRobot, Pingdom)</li>
+<li>[ ] Performance monitoring (New Relic, Datadog)</li>
+
+<h3>Testing</h3>
+<li>[ ] Unit tests passing</li>
+<li>[ ] Integration tests passing</li>
+<li>[ ] API endpoints tested (Postman/Insomnia)</li>
+<li>[ ] Frontend tested across browsers</li>
+<li>[ ] Mobile app tested on iOS/Android</li>
+<li>[ ] Load testing completed</li>
+<li>[ ] Security audit completed</li>
+
+<h3>Post-Deployment</h3>
+<li>[ ] Health check endpoints responding</li>
+<li>[ ] Cron jobs running</li>
+<li>[ ] Email notifications working</li>
+<li>[ ] Push notifications working</li>
+<li>[ ] File uploads working</li>
+<li>[ ] Reports generating correctly</li>
+<li>[ ] Database backups automated</li>
+<li>[ ] Monitoring alerts configured</li>
+
+<hr>
+
+<h2>Scaling Strategy</h2>
+
+<h3>Phase 1 (0-100 users)</h3>
+<li>Single API server</li>
+<li>MongoDB Atlas M10 cluster</li>
+<li>Redis Cloud 250 MB</li>
+<li>Basic monitoring</li>
+
+<h3>Phase 2 (100-500 users)</h3>
+<li>2-3 API servers with load balancer</li>
+<li>MongoDB Atlas M30 cluster</li>
+<li>Redis Cloud 1 GB</li>
+<li>CDN for static assets</li>
+<li>Enhanced monitoring</li>
+
+<h3>Phase 3 (500-2000 users)</h3>
+<li>3-5 API servers</li>
+<li>MongoDB Atlas M50 cluster or self-hosted replica set</li>
+<li>Redis Cluster</li>
+<li>Separate worker servers for background jobs</li>
+<li>Database read replicas</li>
+<li>Full monitoring suite</li>
+
+<h3>Phase 4 (2000+ users)</h3>
+<li>Auto-scaling API servers (5-10)</li>
+<li>Sharded MongoDB cluster</li>
+<li>Redis Cluster with multiple nodes</li>
+<li>Microservices architecture</li>
+<li>Message queue (RabbitMQ/AWS SQS)</li>
+<li>Multi-region deployment</li>
+
+<hr>
+
+<h2>Backup & Disaster Recovery</h2>
+
+<h3>Daily Backups</h3>
+<li>MongoDB: Automated daily snapshots</li>
+<li>Redis: AOF + RDB snapshots</li>
+<li>S3: Versioning enabled</li>
+<li>Retention: 30 days</li>
+
+<h3>Weekly Backups</h3>
+<li>Full database export</li>
+<li>Application configuration backup</li>
+<li>Retention: 12 weeks</li>
+
+<h3>Monthly Backups</h3>
+<li>Complete system snapshot</li>
+<li>Retention: 12 months</li>
+
+<h3>Disaster Recovery Plan</h3>
+<p>1. Database restore from latest snapshot</p>
+<p>2. Redis rebuild from AOF</p>
+<p>3. Application redeployment from Git</p>
+<p>4. S3 data restoration</p>
+<p>5. DNS failover (if multi-region)</p>
+
+<p><strong>RTO (Recovery Time Objective):</strong> 2 hours  </p>
+<p><strong>RPO (Recovery Point Objective):</strong> 24 hours</p>
+
+<hr>
+
+<h2>Cost Estimation (Monthly)</h2>
+
+<h3>Development Environment</h3>
+<li>Local development: $0</li>
+<li>Docker Desktop: $0</li>
+
+<h3>Staging Environment</h3>
+<li>AWS t3.medium (1 instance): $30</li>
+<li>MongoDB Atlas M10: $57</li>
+<li>Redis Cloud 250 MB: $0 (free tier)</li>
+<li>AWS S3 (10 GB): $0.23</li>
+<li>SendGrid (100 emails/day): $0</li>
+<li><strong>Total: ~$87/month</strong></li>
+
+<h3>Production Environment (500 users)</h3>
+<li>AWS t3.large (3 API instances): $150</li>
+<li>AWS t3.medium (2 web instances): $60</li>
+<li>MongoDB Atlas M30: $435</li>
+<li>Redis Cloud 1 GB: $12</li>
+<li>AWS S3 (100 GB): $2.30</li>
+<li>CloudFront CDN: $25</li>
+<li>SendGrid (10,000 emails/month): $19.95</li>
+<li>AWS Application Load Balancer: $25</li>
+<li>Domain + SSL: $15</li>
+<li>Monitoring (Sentry): $26</li>
+<li><strong>Total: ~$770/month</strong></li>
+
+<hr>
+
+<h2>Development Workflow</h2>
+
+<h3>Git Branching Strategy</h3>
+<pre><code>
+main (production)
+  └── develop (staging)
+        ├── feature/user-management
+        ├── feature/attendance-module
+        ├── bugfix/login-issue
+        └── hotfix/critical-bug
+</code></pre>
+
+<h3>Commit Convention</h3>
+<pre><code>
+feat: Add user management module
+fix: Fix login authentication bug
+docs: Update API documentation
+style: Format code
+refactor: Refactor attendance service
+test: Add unit tests for leave module
+chore: Update dependencies
+</code></pre>
+
+<hr>
+
+<p>This comprehensive deployment guide covers all aspects of infrastructure, scaling, and operations for Pulse Ops Phase 1!</p>
+
+            </section>
+        </div>
+
+        <div class="footer">
+            <h3>Pulse Ops</h3>
+            <p>Complete Technical Documentation</p>
+            <p style="margin-top: 20px;">Version 1.0.0 | November 08, 2025</p>
+        </div>
+    </div>
+
+    <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: true, htmlLabels: true }
+        });
+
+        window.onscroll = function() {
+            const btn = document.getElementById('back-to-top');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = 'flex';
+            } else {
+                btn.style.display = 'none';
+            }
+        };
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Make all code blocks collapsible and minimized by default
+        document.querySelectorAll('pre').forEach((pre, index) => {
+            // Skip if already wrapped
+            if (pre.parentElement.classList.contains('code-block-content')) return;
+
+            // Get code type from previous element
+            let codeLabel = 'Code Example';
+            const prevElement = pre.previousElementSibling;
+            if (prevElement && prevElement.tagName === 'P' && prevElement.querySelector('strong')) {
+                const strongText = prevElement.querySelector('strong').textContent;
+                if (strongText.includes('Request') || strongText.includes('Response') || strongText.includes('Example') || strongText.includes('Headers')) {
+                    codeLabel = strongText;
+                }
+            }
+
+            // Create wrapper
+            const container = document.createElement('div');
+            container.className = 'code-block-container';
+
+            // Create header
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            header.innerHTML = `
+                <span>${codeLabel}</span>
+                <span class="code-block-toggle">▼</span>
+            `;
+
+            // Create content wrapper (minimized by default)
+            const content = document.createElement('div');
+            content.className = 'code-block-content';
+
+            // Wrap the pre element
+            pre.parentNode.insertBefore(container, pre);
+            container.appendChild(header);
+            container.appendChild(content);
+            content.appendChild(pre);
+
+            // Add click handler
+            header.addEventListener('click', () => {
+                const toggle = header.querySelector('.code-block-toggle');
+                const isExpanded = content.classList.contains('expanded');
+
+                if (isExpanded) {
+                    content.classList.remove('expanded');
+                    toggle.classList.remove('expanded');
+                } else {
+                    content.classList.add('expanded');
+                    toggle.classList.add('expanded');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
